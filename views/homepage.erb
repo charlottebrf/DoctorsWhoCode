@@ -63,7 +63,7 @@
 							
 								<span class="input-group-addon">How many minutes?</span>
 							
-								<input class="form-control" type="number" step="1" min="0" id="minutes-spent" name="minutes-spent" placeholder="" required="required">
+								<input class="form-control" type="number" step="1" min="0" id="duration" name="duration" placeholder="" required="required">
 						
 							</div>
 
@@ -74,8 +74,7 @@
 
 								<span class="input-group-addon">Doing what?</span>
 
-								<input class="form-control" type="text" maxlength="30" id="activity-to-log"  name=" activity-to-log" placeholder="Enter activity..."required="required">
-
+								<input class="form-control" type="text" maxlength="30" id="activity_to_log"  name="activity_to_log" placeholder="Enter activity..."required="required">
 
 							</div>
 
@@ -95,7 +94,7 @@
 			    	<h2>CREATE NEW ACTIVITY</h2>
 
 					<!--need to add a method (i.e. post) and an action (i.e. go to /page)-->
-					<form>
+					<form method="POST" action="/create-new-activity">
 
 						<div class="form-group">
 
@@ -106,7 +105,7 @@
 							
 								<span class="input-group-addon">Activity name</span>
 							
-								<input class="form-control" type="text" maxlength="30" id="new-activity" placeholder="Enter activity..."required="required">
+								<input class="form-control" type="text" maxlength="30" id="name" name="name" placeholder="Enter activity..."required="required">
 							
 							</div>
 

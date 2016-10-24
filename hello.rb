@@ -1,24 +1,28 @@
 require 'sinatra'
 
+
 get '/hello' do
 	erb :homepage
 end
 
-#Get the name of the new activity to add
-# get ("/create-new-activity") do	#this path should be defined on the html submit form
 
-	# => how do i indicate a post method for HTML above
-	# => get html form data with equivalent of request.post
-	# => @new_activity = [data from request.post]
-	# => add_new_activity(new_activity) # => write new activity to JSON file or database (should be a separate function, so you can sub out JSON for database. pass in new_activity value)
-	# => erb: home
-# end
+#Get the name of the new activity to add (via post request)
+post ("/create-new-activity") do
+	@activity_name = params[:name]	
+	add_new_activity(@activity_name)
+	erb :homepage
+end
 
 
-#Add the new activity name to JSON or SQL
-# def add_new_activity(new_activity)
-	# => write new activity to JSON file or database, to the correct file and field
-# end
+#This adds the new activity to a test file for now, to prove the concept
+#Eventually this needs to write new activity to JSON file or database, to the correct file and field
+def add_new_activity(activity_name)	
+	testfile = "./check-my-stuff.txt"
+	target = open(testfile, 'w')	
+	target.write(activity_name)
+	target.close
+end
+
 
 
 #Get the name of the activity and minutes spent on it
