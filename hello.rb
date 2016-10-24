@@ -1,7 +1,7 @@
 require 'sinatra'
 
 get '/hello' do
- 'Hello world!'
+	erb :homepage
 end
 
 #Get the name of the new activity to add
