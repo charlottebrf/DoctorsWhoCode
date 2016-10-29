@@ -1,18 +1,18 @@
 <!DOCTYPE html>
- 
+
  <html>
- 
+
 	 <head>
-	 
+
 	 	<!--This should help stuff show nicely on browsers and mobile, but we may not need it
 	 	in a Sinatra template-->
  	 	<meta charset="utf-8">
 	 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	 	<meta name="viewport" content="width=500">
-	 
+
 	 	<!--Boostrap must come before local css definitions-->
-	 	<link href="./css/bootstrap.css" rel="stylesheet" type="text/css"> 
-	 	<link href="./css/main.css" rel="stylesheet" type="text/css"> 
+	 	<link href="./css/bootstrap.css" rel="stylesheet" type="text/css">
+	 	<link href="./css/main.css" rel="stylesheet" type="text/css">
 
 	 	<!--JQuery .js must come before Bootstrap .js, or stuff won't work-->
 	 	<!--[put .js links here]-->
@@ -25,18 +25,18 @@
 
 		<!--This is the navigation bar fixed to top of page-->
 		<nav class="navbar navbar-inverse navbar-fixed-top" id="header-text">
-	  
+
 	  		<!--not sure why container-fluid needs to be used, but documentation says use it-->
 		    <div class="container-fluid">
 
 			    <div class="navbar-header col-xs-12">
-			     	
+
 			     	<p>[Username]'s Time Manager</p>
-			    
+
 			    </div>
 
 			</div>
-		
+
 		<!--end of nav bar code-->
 		</nav>
 
@@ -45,13 +45,15 @@
 		<!--the code below creates a row to hold the activity and logging creation forms, so they display nicely. They display side by side on desktop and larger screens, and one after the other on smaller
 		screens-->
 
-	    	<div class="row"> 
+	    	<div class="row">
 
-			    <div class="col-md-5 col-xs-10"> 
+			    <div class="col-md-5 col-xs-10">
 
 			    	<h2>LOG ACTIVITY</h2>
 
+
 					<!--need to add a method (i.e. post) and an action (i.e. go to /page)-->
+          <!--do we need to link to the Json file here? So far it's just linked to the "hello.rb" file-->
 					<form>
 
 						<div class="form-group">
@@ -60,11 +62,11 @@
 							</label>
 
 							<div class="input-group col-md-6 col-xs-8">
-							
+
 								<span class="input-group-addon">How many minutes?</span>
-							
+
 								<input class="form-control" type="number" step="1" min="0" id="duration" name="duration" placeholder="" required="required">
-						
+
 							</div>
 
 							<label class="control-label">
@@ -78,80 +80,81 @@
 
 							</div>
 
-						</div>			
+						</div>
 
 			        	<button type="submit" class="btn btn-success">Log It</button>
 
 					</form>
 
-				</div>    
+				</div>
 
-			    <div class="col-md-2"> 
+			    <div class="col-md-2">
 			    </div>
 
-			    <div class="col-md-5 col-xs-10"> 
+			    <div class="col-md-5 col-xs-10">
 
 			    	<h2>CREATE NEW ACTIVITY</h2>
 
 					<!--need to add a method (i.e. post) and an action (i.e. go to /page)-->
+          <!--do we need to link to the Json file here? So far it's just linked to the "hello.rb" file-->
 					<form method="POST" action="/create-new-activity">
 
 						<div class="form-group">
 
 							<label class="control-label">
 							</label>
-							
+
 							<div class="input-group col-md-12 col-xs-12">
-							
+
 								<span class="input-group-addon">Activity name</span>
-							
+
 								<input class="form-control" type="text" maxlength="30" id="name" name="name" placeholder="Enter activity..."required="required">
-							
+
 							</div>
 
-						</div>			
+						</div>
 
 			        	<button type="submit" class="btn btn-primary">Create</button>
 
 					</form>
 
-				</div>    
+				</div>
 
 			</div>
 			<!--end of first row-->
 
 			<!--start of second row-->
-			<div class="row"> 
+			<div class="row">
 
-			    <div class="col-md-10 col-xs-10 activity-summary-graph"> 
+			    <div class="col-md-10 col-xs-10 activity-summary-graph">
 
 			    	<h2>Activity Summary Graph</h2>
 			    	<p>Figure out how to put a JS graph here, with padding/margin/centering as appropriate</p>
-				
-				</div>    
+
+				</div>
 
 			</div>
 			<!--end of second row-->
 
 			<!--start of third row-->
-			<div class="row"> 
+			<div class="row">
 
-			    <div class="col-md-10 col-xs-10 activity-summary-text"> 
+			    <div class="col-md-10 col-xs-10 activity-summary-text">
 
 			    	<h2>Activity Summary Text</h2>
-			    	
+
 			    	<ul>
 			    		<li>You spent the most time on [activity] ([duration] minutes)</li>
 			    		<li>You spent the least time on [activity] ([duration] minutes)</li>
 			    	</ul>
-				
-				</div>    
+
+				</div>
 
 			</div>
 			<!--end of third row-->
 
 		<!--this /div closes the container-->
-	    </div> 
+	    </div>
 
 	</body>
 

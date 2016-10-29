@@ -24,7 +24,6 @@ def add_new_activity(activity_name)
 end
 
 
-
 #Get the name of the activity and minutes spent on it
 # get ("/time-spent-on-activity") do
 	# => how do i indicate a post method for HTML above
@@ -35,6 +34,22 @@ end
 	# => log_activity(activity, minutes_spent, date_time) # => log to JSON file or database (should be a separate function, so you can sub out JSON for database. pass in new_activity value)
 	# erb :home 
 # end
+#not sure if I need to add in a "def" here like the above code
+#need to check the below code is working, included some sample data 
+
+require 'json'
+file = File.read('loggedactivities.json')
+Activities = JSON.parse(file)
+end
+#need to read documentation on whether this is the best place to put the json file 
+
+Activities =[
+	% : {name: "TV", minutes: "120"}
+	% : {name: "coding", minutes: "45"}]
+
+
+act.add(% name: "", minutes: ""})
+
 
 
 #log activity data to JSON or database, passing in value from the get_time_spent_on_activity function
