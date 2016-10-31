@@ -1,5 +1,7 @@
 require 'sinatra'
 
+require 'json'
+
 
 get '/hello' do
 	erb :homepage
@@ -18,9 +20,19 @@ end
 #Eventually this needs to write new activity to JSON file or database, to the correct file and field
 def add_new_activity(activity_name)
 	testfile = "./check-my-stuff.txt"
-	target = open(testfile, 'w')
+	target = open(testfile, 'a')
 	target.write(activity_name)
 	target.close
+
+
+	file = File.open('activitylist.json', "a")
+
+	activities =
+	 {name: activity_name}
+
+	file.write(activities.to_json)
+	file.close
+
 end
 
 
@@ -37,18 +49,11 @@ end
 #not sure if I need to add in a "def" here like the above code
 #need to check the below code is working, included some sample data
 
-require 'json'
-file = File.read('loggedactivities.json')
-Activities = JSON.parse(file)
-end
+#file = File.read('loggedactivities.json')
+
 #need to read documentation on whether this is the best place to put the json file
 
-Activities =[
-	% : {name: "TV", minutes: "120"}
-	% : {name: "coding", minutes: "45"}]
 
-
-Activities.add(% name: "", minutes: ""})
 
 
 
