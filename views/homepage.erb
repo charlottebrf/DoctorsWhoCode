@@ -37,6 +37,28 @@
   
   			} );
 
+
+			function validation_message() {
+
+				var activity = document.getElementById("activity_to_log").value;
+				var duration = document.getElementById("duration").value;
+		       
+		       	if (activity == "" || duration == ""){
+		    		alert("Please fill out both fields");
+		    		return true;
+		    	}
+
+		       	if (duration <= 0){
+		    		alert("Please enter a valid duration");
+		    		return true;
+		    	}
+
+			    else{
+		       		alert("You logged " + duration + " minutes of " + activity);
+		        	return true;
+		    	}
+			}
+
  		</script>
 
 		<title>My Time Manager</title>
@@ -73,7 +95,7 @@
 
 			    	<h2>LOG ACTIVITY</h2>
 
-					<form method="POST" action="/log">
+					<form method="POST" name"myForm" onsubmit="return validation_message();" action="/log">
 
 						<div class="form-group">
 
