@@ -12,10 +12,32 @@
 
 	 	<!--Boostrap must come before local css definitions-->
 	 	<link href="./css/bootstrap.css" rel="stylesheet" type="text/css">
+ 	 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	 	<link rel="stylesheet" href="./css/jquery-ui.css">
 	 	<link href="./css/main.css" rel="stylesheet" type="text/css">
 
 	 	<!--JQuery .js must come before Bootstrap .js, or stuff won't work-->
-	 	<!--[put .js links here]-->
+		<script src="./js/jquery-3.1.1.js"></script>
+		<script src="./js/jquery-ui.js"></script>
+		
+		<script type="text/javascript">
+
+  			$( function() {
+    			
+    			var availableActivities = [
+					<% for row in @log_entries %>
+						"<%= row["name"] %>",									  
+					<% end %>
+    			];
+   
+			    $( "#activity_to_log" ).autocomplete({
+			      	source: availableActivities,
+			      	position: {my : "center top+10", at: "bottom left", within: "window", collision: "none"},
+				});
+  
+  			} );
+
+ 		</script>
 
 		<title>My Time Manager</title>
 
@@ -76,7 +98,7 @@
 
 								<span class="input-group-addon">Doing what?</span>
 
-								<input class="form-control" type="text" maxlength="30" id="activity_to_log"  name="activity_to_log" placeholder="Enter activity..."required="required">
+								<input class="form-control" type="text" maxlength="30" id="activity_to_log" name="activity_to_log" placeholder="Enter activity..."required="required">
 
 							</div>
 
