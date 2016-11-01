@@ -64,24 +64,20 @@
 
 		<div class="container">
 
-		<!--the code below creates a row to hold the activity and logging creation forms, so they display nicely. They display side by side on desktop and larger screens, and one after the other on smaller
-		screens-->
-
 	    	<div class="row">
 
-			    <div class="col-md-5 col-xs-10">
+			    <div class="col-md-3 col-xs-1">			    	
+				</div>
+
+			    <div class="col-md-6 col-xs-10" id="log-activity-section">
 
 			    	<h2>LOG ACTIVITY</h2>
 
-
-					<!--need to add a method (i.e. post) and an action (i.e. go to /page)-->
-          <!--do we need to link to the Json file here? So far it's just linked to the "hello.rb" file-->
 					<form method="POST" action="/log">
 
 						<div class="form-group">
 
-							<label class="control-label">
-							</label>
+							<label class="control-label"></label>
 
 							<div class="input-group col-md-6 col-xs-8">
 
@@ -91,8 +87,7 @@
 
 							</div>
 
-							<label class="control-label">
-							</label>
+							<label class="control-label"></label>
 
 							<div class="input-group col-md-12 col-xs-12">
 
@@ -110,36 +105,7 @@
 
 				</div>
 
-			    <div class="col-md-2">
-			    </div>
-
-			    <div class="col-md-5 col-xs-10">
-
-			    	<h2>CREATE NEW ACTIVITY</h2>
-
-					<!--need to add a method (i.e. post) and an action (i.e. go to /page)-->
-          <!--do we need to link to the Json file here? So far it's just linked to the "hello.rb" file-->
-					<form method="POST" action="/create-new-activity">
-
-						<div class="form-group">
-
-							<label class="control-label">
-							</label>
-
-							<div class="input-group col-md-12 col-xs-12">
-
-								<span class="input-group-addon">Activity name</span>
-
-								<input class="form-control" type="text" maxlength="30" id="name" name="name" placeholder="Enter activity..."required="required">
-
-							</div>
-
-						</div>
-
-			        	<button type="submit" class="btn btn-primary">Create</button>
-
-					</form>
-
+			    <div class="col-md-3 col-xs-1">			    	
 				</div>
 
 			</div>
