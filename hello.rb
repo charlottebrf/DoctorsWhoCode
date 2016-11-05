@@ -8,10 +8,13 @@ require 'chartkick'
 get '/hello' do
 	log_file = 'loggedactivities.json'
 	@log_entries = get_data_from_json_file(log_file)
+	@date = Date.today.to_s
+
 
 	#DEBUGGING
 	@log_entries.each do |item|
   		puts "\nI did #{item["duration"]} minutes of #{item["name"]}\n"
+  		puts "I am here #{{@today}}"
 	end
 	#END OF DEBUGGING
 
