@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'json'
 require 'date'
+require 'chartkick'
 #require 'pg'
 
 
