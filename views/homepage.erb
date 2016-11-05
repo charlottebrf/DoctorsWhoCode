@@ -145,7 +145,7 @@
 			    	<p>This is the data that should be charted: <%= @todays_raw_data %></p>
 
 					<div>
-					    <%= bar_chart(@todays_raw_data) %>
+					    <%= bar_chart(@graph_data) %>
 					</div>
 
 				</div>
@@ -164,6 +164,8 @@
 			    		<li>You spent the most time on [activity] ([duration] minutes)</li>
 			    		<li>You spent the least time on [activity] ([duration] minutes)</li>
 			    	</ul>
+
+			    	<p><%= @graph_data %></p>
 
 				</div>
 
