@@ -51,7 +51,11 @@ def get_summary_data
 	end
  		
  	@graph_data = @todays_data.sort_by { |k,v| -v}
- 	
+ 	@most_time_spent = @graph_data[0]
+ 	@least_time_spent = @graph_data[-1] 	
+
+ 	puts"\n\n\n MOst time: #{@most_time_spent} least time #{@least_time_spent}"
+
 	#need a handler for if today's data is empty
 
 end

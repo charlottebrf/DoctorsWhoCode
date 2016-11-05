@@ -140,8 +140,15 @@
 
 			    <div class="col-md-10 col-xs-10 activity-summary-graph">
 
-			    	<h2>Activity Summary Graph</h2>
-			    	<p>Figure out how to put a JS graph here, with padding/margin/centering as appropriate</p>
+			    	<h2>Today's Summary</h2>
+
+					<ul>
+			    		<li>Your longest activity was <%= @most_time_spent[0] %> (<%= @most_time_spent[1] %> minutes)</li>
+			    		<li>Your shortest activity was <%= @least_time_spent[0] %> (<%= @least_time_spent[1] %> minutes)</li>
+			    	</ul>
+
+
+			    	<p>GRAPH: Update size, axes, etc.</p>
 			    	<p>This is the data that should be charted: <%= @todays_raw_data %></p>
 
 					<div>
@@ -161,8 +168,8 @@
 			    	<h2>Activity Summary Text</h2>
 
 			    	<ul>
-			    		<li>You spent the most time on [activity] ([duration] minutes)</li>
-			    		<li>You spent the least time on [activity] ([duration] minutes)</li>
+			    		<li>Today your longest activity was <%= @most_time_spent[0] %> (<%= @most_time_spent[1] %> minutes)</li>
+			    		<li>Today your shortest activity was <%= @least_time_spent[0] %> (<%= @least_time_spent[1] %> minutes)</li>
 			    	</ul>
 
 			    	<p><%= @graph_data %></p>
