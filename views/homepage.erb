@@ -47,16 +47,21 @@
 		       
 		       	if (activity == "" || duration == ""){
 		    		alert("Please fill out both fields");
-		    		return true;
+		    		return false;
 		    	}
 
 		       	if (duration <= 0){
-		    		alert("Please enter a valid duration");
-		    		return true;
+		    		alert("We all wish we could turn back time!\nPlease enter a valid duration.");
+		    		return false;
+		    	}
+
+		       	if (duration > 1440){
+		    		alert("There are only 1440 minutes in a day!\nPlease enter a valid duration.");
+		    		return false;
 		    	}
 
 			    else{
-		       		alert("You logged " + duration + " minutes of " + activity);
+		       		alert("You logged " + duration + " minutes of " + activity + ".");
 		        	return true;
 		    	}
 			}
@@ -95,7 +100,7 @@
 
 			    <div class="col-md-6 col-xs-10" id="log-activity-section">
 
-			    	<h2>LOG ACTIVITY</h2>
+			    	<h2>LOG AN ACTIVITY</h2>
 
 					<form method="POST" name"myForm" onsubmit="return validation_message();" action="/log">
 
@@ -138,7 +143,7 @@
 			<!--start of second row-->
 			<div class="row">
 
-			    <div class="col-md-10 col-xs-10 activity-summary-graph">
+			    <div id="col-md-10 col-xs-10 activity-summary-section">
 
 			    	<h2>Today's Summary</h2>
 
@@ -147,37 +152,14 @@
 			    		<li>Your shortest activity was <%= @least_time_spent[0] %> (<%= @least_time_spent[1] %> minutes)</li>
 			    	</ul>
 
-
-			    	<p>GRAPH: Update size, axes, etc.</p>
-			    	<p>This is the data that should be charted: <%= @todays_raw_data %></p>
-
 					<div>
-					    <%= bar_chart(@graph_data) %>
+					    <%= bar_chart(@graph_data, id: "activity-summary", width: "100%", xtitle: "Minutes Spent Today") %>
 					</div>
 
 				</div>
 
 			</div>
 			<!--end of second row-->
-
-			<!--start of third row-->
-			<div class="row">
-
-			    <div class="col-md-10 col-xs-10 activity-summary-text">
-
-			    	<h2>Activity Summary Text</h2>
-
-			    	<ul>
-			    		<li>Today your longest activity was <%= @most_time_spent[0] %> (<%= @most_time_spent[1] %> minutes)</li>
-			    		<li>Today your shortest activity was <%= @least_time_spent[0] %> (<%= @least_time_spent[1] %> minutes)</li>
-			    	</ul>
-
-			    	<p><%= @graph_data %></p>
-
-				</div>
-
-			</div>
-			<!--end of third row-->
 
 		<!--this /div closes the container-->
 	    </div>
