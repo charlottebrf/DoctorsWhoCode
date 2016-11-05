@@ -95,12 +95,12 @@
 
 	    	<div class="row">
 
-			    <div class="col-md-3 col-xs-1">			    	
+			    <div class="col-md-2 col-xs-1">			    	
 				</div>
 
 			    <div class="col-md-6 col-xs-10" id="log-activity-section">
 
-			    	<h2>LOG AN ACTIVITY</h2>
+			    	<h2>Log Activity</h2>
 
 					<form method="POST" name"myForm" onsubmit="return validation_message();" action="/log">
 
@@ -141,15 +141,19 @@
 			<!--end of first row-->
 
 			<!--start of second row-->
+			
 			<div class="row">
 
-			    <div id="col-md-10 col-xs-10 activity-summary-section">
+			    <div class="col-md-2 col-xs-1">			    	
+				</div>
 
-			    	<h2>Today's Summary</h2>
+			    <div class="col-md-10 col-xs-10" id="activity-summary-section">
+
+			    	<h2>My Activity Summary</h2>
 
 					<ul>
-			    		<li>Your longest activity was <%= @most_time_spent[0] %> (<%= @most_time_spent[1] %> minutes)</li>
-			    		<li>Your shortest activity was <%= @least_time_spent[0] %> (<%= @least_time_spent[1] %> minutes)</li>
+			    		<li>You spent the most time today <%= @most_time_spent[0] %> (<%= @most_time_spent[1] %> minutes)</li>
+			    		<li>You spent the least time today <%= @least_time_spent[0] %> (<%= @least_time_spent[1] %> minutes)</li>
 			    	</ul>
 
 					<div>
