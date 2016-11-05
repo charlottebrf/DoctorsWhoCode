@@ -20,7 +20,7 @@
 		<script src="./js/jquery-3.1.1.js"></script>
 		<script src="./js/jquery-ui.js"></script>
 		<script src="http://www.google.com/jsapi"></script>
-    	<script src="chartkick.js" type="text/javascript"></script>
+    	<script src="./js/chartkick.js" type="text/javascript"></script>
 		
 		<script type="text/javascript">
 
@@ -142,6 +142,11 @@
 
 			    	<h2>Activity Summary Graph</h2>
 			    	<p>Figure out how to put a JS graph here, with padding/margin/centering as appropriate</p>
+			    	<p>This is the data that should be charted: <%= @todays_raw_data %></p>
+
+					<div>
+					    <%= bar_chart(@todays_raw_data) %>
+					</div>
 
 				</div>
 
