@@ -151,14 +151,30 @@
 
 			    	<h2>My Activity Summary</h2>
 
-					<ul>
-			    		<li>You spent the most time today <%= @most_time_spent[0] %> (<%= @most_time_spent[1] %> minutes)</li>
-			    		<li>You spent the least time today <%= @least_time_spent[0] %> (<%= @least_time_spent[1] %> minutes)</li>
-			    	</ul>
+			    	<% if @graph_data.empty? %>
 
-					<div>
-					    <%= bar_chart(@graph_data, id: "activity-summary", width: "100%", xtitle: "Minutes Spent Today") %>
-					</div>
+						<p>Log your first activity of the day to get started.</p>
+
+					<% else %>	
+
+						<% if @graph_data.length >1 %>
+							
+							<ul>
+					    		<li>You spent the most time today <%= @most_time_spent[0] %> (<%= @most_time_spent[1] %> minutes)</li>
+					    		<li>You spent the least time today <%= @least_time_spent[0] %> (<%= @least_time_spent[1] %> minutes)</li>
+					    	</ul>
+
+							<div>
+							    <%= bar_chart(@graph_data, id: "activity-summary", width: "100%", xtitle: "Minutes Spent Today") %>
+							</div>
+
+						<% else %>
+							
+							<p>You spent <%= @most_time_spent[1] %> minutes <%= @most_time_spent[0] %> today.</p>
+
+				    	<%end %>
+
+					<% end %> 
 
 				</div>
 

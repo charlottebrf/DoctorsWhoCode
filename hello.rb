@@ -41,11 +41,11 @@ end
 def get_summary_data
 	log_file = 'loggedactivities.json'
 	@log_entries = get_data_from_json_file(log_file)
-	@date = Date.today.to_s 	#converted to string so it can be compared with hash contents
+	today = Date.today.to_s 	#converted to string so it can be compared with hash contents
 	@todays_data = {}
-
+	
 	for entry in @log_entries		
-		if entry["date"] == @date
+		if entry["date"] == today
 			#this deletes duplicates!						
 			@log_entries.each{|k,v| @todays_data[entry["name"]]=entry["duration"].to_i}		#remaps hash to name=>duration pairs
 		end		
@@ -56,11 +56,12 @@ def get_summary_data
  	@least_time_spent = @graph_data[-1] 	
 
  	#debugging#
- 	puts"\n\n\n #{@log_entries}"
- 	puts"\n\n\n #{@todays_data}"
- 	puts"\n\n\n #{@graph_data}"
+ 	puts "\n\n\n***** JSON, hash, and array debugging *****"
+ 	puts "\n ALL JSON LOG ENTRIES:\n\n#{@log_entries}"
+ 	puts "\n TODAY'S LOGGED DATA:\n\n#{@todays_data}"
+ 	puts "\n SORTED GRAPH DATA:\n\n#{@graph_data}"
+ 	puts "\n\n\n"
 	#end of debugging#
-	#need a handler for if today's data is empty
 
 end
 
