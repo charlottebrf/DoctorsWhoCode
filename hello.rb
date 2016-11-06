@@ -6,6 +6,9 @@ require 'chartkick'
 
 get '/hello' do
 	get_summary_data()
+	@autocomplete_suggestions = get_autocomplete_suggestions()
+	puts "\n\n\n$$$$$$$$$$$$$"
+	puts @autocomplete_suggestions
 	erb :homepage
 end
 
@@ -37,6 +40,14 @@ def get_data_from_json_file(filename)
 end
 
 
+def get_autocomplete_suggestions	
+	log_file = 'loggedactivities.json'
+	data_hash = get_data_from_json_file(log_file)
+	autocomplete_suggestions = data_hash.uniq { |row| row["name"] }
+	return autocomplete_suggestions
+end
+
+
 #Get log data from today and prepare it for graph/summary in erb file
 def get_summary_data
 	log_file = 'loggedactivities.json'
@@ -44,29 +55,21 @@ def get_summary_data
 	today = Date.today.to_s 	#convert to string so it can be compared with hash contents
 	@todays_graph_data = {}
 	@todays_text_data = {}
+	all_activities_entered_today =[]
+	interim_activity_list = []	#intermediate step so we can up up all durations for a single activity
 
-
-	todays_raw_data =[]			#test code
-	interim_activity_list = []	#intermediate step to enable summing of activity durations
-
-	
 	for entry in @log_entries		
 		if entry["date"] == today
-
-			todays_raw_data << {"name" => entry["name"], "duration" => entry["duration"].to_i}	
+			all_activities_entered_today << {"name" => entry["name"], "duration" => entry["duration"].to_i}	
  			interim_activity_list << {"name" => entry["name"], "duration" => 0}			
-
-			#this deletes duplicates!						
-			@log_entries.each{|k,v| @todays_graph_data[entry["name"].upcase]=entry["duration"].to_i}		#remaps hash to name=>duration pairs
-			@log_entries.each{|k,v| @todays_text_data[entry["name"]]=entry["duration"].to_i}		#remaps hash to name=>duration pairs
 		end		
 	end
 
-	day_summary_unique = interim_activity_list.uniq { |row| row["name"] }
+	day_summary_of_unique_activities = interim_activity_list.uniq { |row| row["name"] }	#creates list of unique activities based on name
 
-	for entry in day_summary_unique
+	for entry in day_summary_of_unique_activities
 
-		for item in todays_raw_data
+		for item in all_activities_entered_today
 
 			if entry["name"] == item["name"]
 				
@@ -77,7 +80,7 @@ def get_summary_data
 				puts "Add #{item["duration"]} minutes to the running total of #{entry["duration"]} minutes."
 				#END OF DEBUGGING#
 
-				#Increases duration for every duplicate value
+				#Adds to duration for every value/duplicate value found
 				entry["duration"] += item["duration"]
 				
 				#DEBUGGING#
@@ -89,6 +92,12 @@ def get_summary_data
 		end
 
 	end
+
+	#remap hashes to name=>duration pairs
+	for entry in day_summary_of_unique_activities
+		day_summary_of_unique_activities.each{|k,v| @todays_graph_data[entry["name"].upcase]=entry["duration"].to_i}		
+		day_summary_of_unique_activities.each{|k,v| @todays_text_data[entry["name"]]=entry["duration"].to_i}
+	end
  		
  	@graph_data = @todays_graph_data.sort_by { |k,v| -v} 
  	@text_data = @todays_text_data.sort_by { |k,v| -v} 
@@ -97,15 +106,15 @@ def get_summary_data
 
  	#debugging#
  	puts "\n\n\n***** JSON, hash, and array debugging *****"
- 	puts "\n Todays Raw Data:\n#{todays_raw_data}"
- 	puts "\n interim_activity_list:\n#{interim_activity_list}"
- 	puts "\n day_summary_unique:\n#{day_summary_unique}"
  	puts "\n ALL JSON LOG ENTRIES:\n#{@log_entries}"
+ 	puts "\n Todays Raw Data:\n#{all_activities_entered_today}"
+ 	puts "\n interim_activity_list:\n#{interim_activity_list}"
+ 	puts "\n Today time spent on activities today:\n#{day_summary_of_unique_activities}"
  	puts "\n TODAY'S LOGGED GRAPH DATA:\n#{@todays_graph_data}"
  	puts "\n TODAY'S LOGGED TEXT DATA:\n#{@todays_text_data}"
  	puts "\n SORTED GRAPH DATA:\n#{@graph_data}"
+ 	puts "\n SORTED TEXT DATA:\n#{@text_data}"
  	puts "\n\n\n"
 	#end of debugging#
 
 end
-

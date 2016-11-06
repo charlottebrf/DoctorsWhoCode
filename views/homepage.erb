@@ -27,7 +27,7 @@
   			$( function() {
     			
     			var availableActivities = [
-					<% for row in @log_entries %>
+					<% for row in @autocomplete_suggestions %>
 						"<%= row["name"] %>",									  
 					<% end %>
     			];
