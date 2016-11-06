@@ -5,11 +5,17 @@ require 'chartkick'
 
 
 get '/hello' do
-	get_summary_data()
+	get_today_summary_data()
 	@autocomplete_suggestions = get_autocomplete_suggestions()
 	puts "\n\n\n$$$$$$$$$$$$$"
 	puts @autocomplete_suggestions
 	erb :homepage
+end
+
+
+get '/week' do
+	get_week_summary_data()	
+	erb :week
 end
 
 
@@ -49,7 +55,7 @@ end
 
 
 #Get log data from today and prepare it for graph/summary in erb file
-def get_summary_data
+def get_today_summary_data
 	log_file = 'loggedactivities.json'
 	@log_entries = get_data_from_json_file(log_file)
 	today = Date.today.to_s 	#convert to string so it can be compared with hash contents
@@ -117,4 +123,44 @@ def get_summary_data
  	puts "\n\n\n"
 	#end of debugging#
 
+end
+
+
+def get_week_summary_data
+	log_file = 'loggedactivities.json'
+	@log_entries = get_data_from_json_file(log_file)
+	now = Date.today
+	today = now.to_s
+	a_week_ago = (now-7).to_s 	
+	@week_graph_data = {}
+	@week_text_data = {}
+	all_activities_entered_week =[]
+	interim_activity_list = []	
+
+	for entry in @log_entries		
+		if (entry["date"] <= today) && (entry["date"] >= a_week_ago)
+			all_activities_entered_week << {"name" => entry["name"], "duration" => entry["duration"].to_i}	
+ 			interim_activity_list << {"name" => entry["name"], "duration" => 0}			
+		end		
+	end
+
+	week_summary_of_unique_activities = interim_activity_list.uniq { |row| row["name"] }
+
+	for entry in week_summary_of_unique_activities
+		for item in all_activities_entered_week
+			if entry["name"] == item["name"]								
+				entry["duration"] += item["duration"]				
+			end
+		end
+	end
+
+	for entry in week_summary_of_unique_activities
+		week_summary_of_unique_activities.each{|k,v| @week_graph_data[entry["name"].upcase]=entry["duration"].to_i}		
+		week_summary_of_unique_activities.each{|k,v| @week_text_data[entry["name"]]=entry["duration"].to_i}
+	end
+ 		
+ 	@graph_data_week = @week_graph_data.sort_by { |k,v| -v} 
+ 	@text_data_week = @week_text_data.sort_by { |k,v| -v} 
+ 	@most_time_spent_week = @text_data_week[0]
+ 	@least_time_spent_week = @text_data_week[-1] 	
 end

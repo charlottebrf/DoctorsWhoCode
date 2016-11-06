@@ -154,7 +154,7 @@
 
 			    <div class="col-md-10 col-xs-10" id="activity-summary-section">
 
-			    	<h2>My Activity Summary</h2>
+			    	<h2>Today's Activity Summary <a href="/week"><button class="btn btn-xs btn-default">WEEK VIEW</button></a></h2>
 
 			    	<% if @graph_data.empty? %>
 
@@ -165,8 +165,8 @@
 						<% if @graph_data.length >1 %>
 							
 							<ul>
-					    		<li><%= @most_time_spent[0].capitalize %> is what you spent the most time on today (<%= @most_time_spent[1] %> minutes)</li>
-					    		<li><%= @least_time_spent[0].capitalize %> is what you spent the least time on today (<%= @least_time_spent[1] %> minutes)</li>
+					    		<li><%= @most_time_spent[0].capitalize %> is what you spent the most time on (<%= @most_time_spent[1] %> minutes)</li>
+					    		<li><%= @least_time_spent[0].capitalize %> is what you spent the least time on (<%= @least_time_spent[1] %> minutes)</li>
 					    	</ul>
 
 							<div>
@@ -175,7 +175,7 @@
 
 						<% else %>
 							
-							<p>You spent <%= @most_time_spent[1] %> minutes <%= @most_time_spent[0] %> today.</p>
+							<p>You spent <%= @most_time_spent[1] %> minutes on <%= @most_time_spent[0] %> today.</p>
 
 				    	<%end %>
 
