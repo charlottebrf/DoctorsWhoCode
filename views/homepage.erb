@@ -19,22 +19,30 @@
 		<script src="./js/jquery-ui.js"></script>
 		<script src="http://www.google.com/jsapi"></script>
     	<script src="./js/chartkick.js" type="text/javascript"></script>
-		
+
+//Unsure if this is the best place for the User identification login. Once the
+user has logged in they would have to be directed to the homepage, rather than
+application controller.erb//
+
+      "Welcome, <%=@user.name%>!"
+      <a href="/sessions/login">Log In</a>
+
+
 		<script type="text/javascript">
 
   			$( function() {
-    			
+
     			var availableActivities = [
 					<% for row in @autocomplete_suggestions %>
-						"<%= row["name"] %>",									  
+						"<%= row["name"] %>",
 					<% end %>
     			];
-   
+
 			    $( "#activity_to_log" ).autocomplete({
 			      	source: availableActivities,
 			      	position: {my : "center top+10", at: "bottom left", within: "window", collision: "none"},
 				});
-  
+
   			} );
 
 
@@ -42,7 +50,7 @@
 
 				var activity = document.getElementById("activity_to_log").value;
 				var duration = document.getElementById("duration").value;
-		       
+
 		       	if (activity == "" || duration == ""){
 		    		alert("Please fill out both fields");
 		    		return false;
@@ -52,7 +60,7 @@
 		    		alert("We all wish we could turn back time!\nPlease enter a valid duration.");
 		    		return false;
 		    	}
-		       	
+
 		       	if (duration == 0){
 		    		alert("Did you mean to enter zero?\nPlease enter a valid duration.");
 		    		return false;
@@ -72,7 +80,7 @@
  		</script>
 
 		<title>My Time Manager</title>
-		
+
 		<link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
 
 	</head>
@@ -100,7 +108,7 @@
 
 	    	<div class="row">
 
-			    <div class="col-md-3 col-xs-1">			    	
+			    <div class="col-md-3 col-xs-1">
 				</div>
 
 			    <div class="col-md-6 col-xs-10" id="log-activity-section">
@@ -130,12 +138,12 @@
 								<input class="form-control" type="text" maxlength="30" id="activity_to_log" name="activity_to_log" placeholder="Enter activity..."required="required">
 
 							</div>
-						
+
 							<div class="input-group col-md-12 col-xs-12 activity-radio-buttons">
 
 								<label class="radio-inline"><input type="radio" name="task_type" value="work" checked="checked" required="required">Work</label>
-								
-								<label class="radio-inline"><input type="radio" name="task_type" value="not_work" required="required">Not Work</label>	
+
+								<label class="radio-inline"><input type="radio" name="task_type" value="not_work" required="required">Not Work</label>
 
 							</div>
 
@@ -148,17 +156,17 @@
 
 				</div>
 
-			    <div class="col-md-3 col-xs-1">			    	
+			    <div class="col-md-3 col-xs-1">
 				</div>
 
 			</div>
 			<!--end of first row-->
 
 			<!--start of second row-->
-			
+
 			<div class="row">
 
-			    <div class="col-md-2 col-xs-1">			    	
+			    <div class="col-md-2 col-xs-1">
 				</div>
 
 			    <div class="col-md-10 col-xs-10" id="activity-summary-section">
@@ -169,10 +177,10 @@
 
 						<p>Log your first activity of the day to get started.</p>
 
-					<% else %>	
+					<% else %>
 
 						<% if @graph_data.length >1 %>
-							
+
 							<ul>
 					    		<li><%= @most_time_spent[0].capitalize %> is what you spent the most time on (<%= @most_time_spent[1] %> minutes)</li>
 					    		<li><%= @least_time_spent[0].capitalize %> is what you spent the least time on (<%= @least_time_spent[1] %> minutes)</li>
@@ -183,12 +191,12 @@
 							</div>
 
 						<% else %>
-							
+
 							<p>You spent <%= @most_time_spent[1] %> minutes on <%= @most_time_spent[0] %> today.</p>
 
 				    	<%end %>
 
-					<% end %> 
+					<% end %>
 
 				</div>
 

@@ -3,6 +3,12 @@ require 'json'
 require 'date'
 require 'chartkick'
 
+#Check this is the correct place for the user login
+get '/users/home' do
+  @user = User.find(session[:id])
+  erb :'/users/homepage'
+end
+
 
 get '/hello' do
 	get_today_summary_data()
