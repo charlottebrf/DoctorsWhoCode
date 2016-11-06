@@ -3,7 +3,6 @@ body {
 	margin-bottom: 100px;
 }
 
-
 #header-text {
 	color: white;
 	padding: 10px;
@@ -11,14 +10,17 @@ body {
 	font-weight: bold;
 }
 
-.activity-input{
-	margin-top: 30px;
-	padding-top: 5px;
-	padding-bottom: 30px;
+#log-activity-section{
+	text-align: left;
 }
 
-.activity-summary-graph{
-	margin-top: 100px;
+.activity-radio-buttons{
+	padding-top: 15px;
+	padding-bottom: 10px;
+}
+
+#activity-summary-section{
+	margin-top: 50px;
 }
 
 .activity-summary-text{
