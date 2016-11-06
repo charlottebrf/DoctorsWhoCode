@@ -160,8 +160,8 @@
 						<% if @graph_data.length >1 %>
 							
 							<ul>
-					    		<li>You spent the most time today <%= @most_time_spent[0] %> (<%= @most_time_spent[1] %> minutes)</li>
-					    		<li>You spent the least time today <%= @least_time_spent[0] %> (<%= @least_time_spent[1] %> minutes)</li>
+					    		<li><%= @most_time_spent[0].capitalize %> is what you spent the most time on today (<%= @most_time_spent[1] %> minutes)</li>
+					    		<li><%= @least_time_spent[0].capitalize %> is what you spent the least time on today (<%= @least_time_spent[1] %> minutes)</li>
 					    	</ul>
 
 							<div>
