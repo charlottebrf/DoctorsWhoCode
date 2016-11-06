@@ -7,8 +7,6 @@ require 'chartkick'
 get '/hello' do
 	get_today_summary_data()
 	@autocomplete_suggestions = get_autocomplete_suggestions()
-	puts "\n\n\n$$$$$$$$$$$$$"
-	puts @autocomplete_suggestions
 	erb :homepage
 end
 
@@ -19,21 +17,28 @@ get '/week' do
 end
 
 
+get '/month' do
+	get_month_summary_data()	
+	erb :month
+end
+
+
 #Get user data for logging (via post request)
 post ("/log") do
 	@activity_logged = params[:activity_to_log]
 	@minutes_spent = params[:duration]
+	@type = params[:task_type]
 	@date = Date.today
-	log_activity_to_json(@activity_logged, @minutes_spent, @date) 
+	log_activity_to_json(@activity_logged, @minutes_spent, @date, @type) 
 	redirect "/hello"
 end
 
 
 #Don't forget to initialise the .json file with [] (this means we need to push such a file to heroku for demo day)
-def log_activity_to_json(activity_logged, minutes_spent, date)
+def log_activity_to_json(activity_logged, minutes_spent, date, type)
 	json_string = File.read('loggedactivities.json')
 	activities_logged = JSON.load(json_string)
-	activities_logged << {name: activity_logged, duration: minutes_spent, date: date}
+	activities_logged << {name: activity_logged, duration: minutes_spent, date: date, type: type}
 	File.write('loggedactivities.json', activities_logged.to_json)
 end
 
@@ -163,4 +168,44 @@ def get_week_summary_data
  	@text_data_week = @week_text_data.sort_by { |k,v| -v} 
  	@most_time_spent_week = @text_data_week[0]
  	@least_time_spent_week = @text_data_week[-1] 	
+end
+
+
+def get_month_summary_data
+	log_file = 'loggedactivities.json'
+	@log_entries = get_data_from_json_file(log_file)
+	now = Date.today
+	today = now.to_s
+	a_month_ago = (now-30).to_s 	
+	@month_graph_data = {}
+	@month_text_data = {}
+	all_activities_entered_month =[]
+	interim_activity_list = []	
+
+	for entry in @log_entries		
+		if (entry["date"] <= today) && (entry["date"] >= a_month_ago)
+			all_activities_entered_month << {"name" => entry["name"], "duration" => entry["duration"].to_i}	
+ 			interim_activity_list << {"name" => entry["name"], "duration" => 0}			
+		end		
+	end
+
+	month_summary_of_unique_activities = interim_activity_list.uniq { |row| row["name"] }
+
+	for entry in month_summary_of_unique_activities
+		for item in all_activities_entered_month
+			if entry["name"] == item["name"]								
+				entry["duration"] += item["duration"]				
+			end
+		end
+	end
+
+	for entry in month_summary_of_unique_activities
+		month_summary_of_unique_activities.each{|k,v| @month_graph_data[entry["name"].upcase]=entry["duration"].to_i}		
+		month_summary_of_unique_activities.each{|k,v| @month_text_data[entry["name"]]=entry["duration"].to_i}
+	end
+ 		
+ 	@graph_data_month = @month_graph_data.sort_by { |k,v| -v} 
+ 	@text_data_month = @month_text_data.sort_by { |k,v| -v} 
+ 	@most_time_spent_month = @text_data_month[0]
+ 	@least_time_spent_month = @text_data_month[-1] 	
 end

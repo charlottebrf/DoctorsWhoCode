@@ -3,7 +3,6 @@ body {
 	margin-bottom: 100px;
 }
 
-
 #header-text {
 	color: white;
 	padding: 10px;
@@ -15,10 +14,9 @@ body {
 	text-align: left;
 }
 
-.activity-input{
-	margin-top: 30px;
-	padding-top: 5px;
-	padding-bottom: 30px;
+.activity-radio-buttons{
+	padding-top: 15px;
+	padding-bottom: 10px;
 }
 
 #activity-summary-section{

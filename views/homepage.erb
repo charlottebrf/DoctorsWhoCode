@@ -4,8 +4,6 @@
 
 	 <head>
 
-	 	<!--This should help stuff show nicely on browsers and mobile, but we may not need it
-	 	in a Sinatra template-->
  	 	<meta charset="utf-8">
 	 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	 	<meta name="viewport" content="width=500">
@@ -74,6 +72,8 @@
  		</script>
 
 		<title>My Time Manager</title>
+		
+		<link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
 
 	</head>
 
@@ -100,7 +100,7 @@
 
 	    	<div class="row">
 
-			    <div class="col-md-2 col-xs-1">			    	
+			    <div class="col-md-3 col-xs-1">			    	
 				</div>
 
 			    <div class="col-md-6 col-xs-10" id="log-activity-section">
@@ -130,6 +130,15 @@
 								<input class="form-control" type="text" maxlength="30" id="activity_to_log" name="activity_to_log" placeholder="Enter activity..."required="required">
 
 							</div>
+						
+							<div class="input-group col-md-12 col-xs-12 activity-radio-buttons">
+
+								<label class="radio-inline"><input type="radio" name="task_type" value="work" checked="checked" required="required">Work</label>
+								
+								<label class="radio-inline"><input type="radio" name="task_type" value="not_work" required="required">Not Work</label>	
+
+							</div>
+
 
 						</div>
 
@@ -154,7 +163,7 @@
 
 			    <div class="col-md-10 col-xs-10" id="activity-summary-section">
 
-			    	<h2>Today's Activity Summary <a href="/week"><button class="btn btn-xs btn-default">WEEK VIEW</button></a></h2>
+			    	<h2>Today's Activity Summary <a href="/week"><button class="btn btn-xs btn-default">MY WEEK</button></a>   <a href="/month"><button class="btn btn-xs btn-default">MY MONTH</button></a></h2>
 
 			    	<% if @graph_data.empty? %>
 
