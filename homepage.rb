@@ -4,7 +4,7 @@ require 'date'
 require 'chartkick'
 
 
-get '/hello' do
+get '/' do
 	get_today_summary_data()
 	@autocomplete_suggestions = get_autocomplete_suggestions()
 	erb :homepage
