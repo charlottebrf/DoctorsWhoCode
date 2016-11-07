@@ -30,7 +30,7 @@ post ("/log") do
 	@type = params[:task_type]
 	@date = Date.today
 	log_activity_to_json(@activity_logged, @minutes_spent, @date, @type) 
-	redirect "/hello"
+	redirect "/"
 end
 
 
