@@ -1,5 +1,8 @@
 GEM
+  remote: https://rubygems.org/
   specs:
+    chartkick (2.1.1)
+    json (2.0.2)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -13,7 +16,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  chartkick
+  json
   sinatra
 
 BUNDLED WITH
-   1.11.2
+   1.13.6
