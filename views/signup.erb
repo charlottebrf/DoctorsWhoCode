@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+ <html>
+
+	 <head>
+
+ 	 	<meta charset="utf-8">
+	 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	 	<meta name="viewport" content="width=500">
+
+	 	<!--Boostrap must come before local css definitions-->
+	 	<link href="./css/bootstrap.css" rel="stylesheet" type="text/css"> 	 	
+	 	<link href="./css/main.css" rel="stylesheet" type="text/css">
+
+	 	<!--JQuery .js must come before Bootstrap .js, or stuff won't work-->
+
+		<title>My Time Manager</title>
+
+		<link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
+
+	</head>
+
+	<body>
+						
+		<div class="container">
+
+	    	<div class="row">
+
+		    	<div class="col-sm-offset-4 col-sm-4" id="login-page">
+
+					<h2>Please enter your details to get started</h2>
+				
+					<form class="form-horizontal" method="POST" name"signupForm" action="/createaccount">
+
+						<div class="form-group">
+												
+							<div>
+						
+								<input type="firstname" class="form-control" id="firstname" placeholder="Your first name">
+						
+							</div>
+						
+						</div>
+
+						<div class="form-group">
+												
+							<div>
+						
+								<input type="email" class="form-control" id="useremail" placeholder="Your email address">
+						
+							</div>
+						
+						</div>
+						
+						<div class="form-group">
+											
+							<div>
+						
+								<input type="password" class="form-control" id="userpassword" placeholder="Set your password">
+						
+							</div>
+						
+						</div>											
+																  
+			        	<button type="submit" class="btn btn-lg btn-primary">Create Account</button>
+
+					</form>
+
+				</div>
+			
+			</div>
+
+		</div>
+		<!--this /div closes the container-->
+	
+	</body>
+
+</html>
+

@@ -5,6 +5,21 @@ require 'chartkick'
 
 
 get '/' do
+    erb :startpage
+end
+
+
+get '/signup' do
+    erb :signup
+end
+
+
+get '/login' do
+    erb :login
+end
+
+
+get '/homepage' do
 	get_today_summary_data()
 	@autocomplete_suggestions = get_autocomplete_suggestions()
 	erb :homepage
@@ -30,7 +45,7 @@ post ("/log") do
 	@type = params[:task_type]
 	@date = Date.today
 	log_activity_to_json(@activity_logged, @minutes_spent, @date, @type) 
-	redirect "/"
+	redirect "/homepage"
 end
 
 
