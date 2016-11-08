@@ -10,12 +10,23 @@ end
 
 
 get '/signup' do
+	
     erb :signup
 end
 
 
 get '/login' do
     erb :login
+end
+
+
+post ("/createaccount") do
+	"Debugging message. I'm not built yet. Can redirec to /homepage for demonstration purposes if we can't get login working"
+end
+
+
+post ("/loggedin") do
+	"Debugging message. I'm not built yet. Can redirec to /homepage for demonstration purposes if we can't get login working"
 end
 
 

@@ -14,6 +14,30 @@
 
 	 	<!--JQuery .js must come before Bootstrap .js, or stuff won't work-->
 
+		<script type="text/javascript">
+  			
+			function validation_message() {
+
+				var name = document.getElementById("name").value;
+				var password = document.getElementById("password").value;
+
+		       	if (name == ""){
+		    		alert("Please enter your first name");
+		    		return false;
+		    	}
+
+		       	if (password == ""){
+		    		alert("Please enter your password");
+		    		return false;
+		    	}
+
+			    else{
+		        	return true;
+		    	}
+			}
+
+ 		</script>
+
 		<title>My Time Manager</title>
 
 		<link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
@@ -30,13 +54,13 @@
 
 					<h2>Log In</h2>
 				
-					<form class="form-horizontal" method="POST" name"signupForm" action="/createaccount">
+					<form class="form-horizontal" method="POST" name"signupForm" onsubmit="return validation_message();" action="/loggedin">
 
 						<div class="form-group">
 												
 							<div>
 						
-								<input type="firstname" class="form-control" id="firstname" placeholder="Your first name">
+								<input type="firstname" class="form-control" name="name" id="name" placeholder="Your first name">
 						
 							</div>
 						
@@ -46,7 +70,7 @@
 											
 							<div>
 						
-								<input type="password" class="form-control" id="userpassword" placeholder="Your password">
+								<input type="password" class="form-control" name"password" id="password" placeholder="Your password">
 						
 							</div>
 						
