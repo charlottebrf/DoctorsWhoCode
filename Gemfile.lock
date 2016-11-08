@@ -30,7 +30,6 @@ DEPENDENCIES
   chartkick
   json
   omniauth-twitter
-  oauth
   sinatra
 
 BUNDLED WITH
