@@ -32,7 +32,7 @@ get '/login' do
 
 	consumer_key = "8aLsCR1VgiOHWQ5GmiGhPYrqG"	
 	consumer_secret = "cYcZsp8sCh9bR0MDbhyPr51uWajq0GGopOrnEOOiBL1s2eq7nT"
-	callback_url = "http://evening-lowlands-39707.herokuapp.com"	#Where to take them when login successful
+	callback_url = "http://evening-lowlands-39707.herokuapp.com/homepage"	#Where to take them when login successful
 
 	oauth = OAuth::Consumer.new(consumer_key, consumer_secret, {:site => "https://twitter.com"})
 
