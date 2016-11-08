@@ -6,4 +6,4 @@ gem 'json'
 gem 'chartkick'
 gem 'omniauth-twitter'
 
-ruby 2.2.4
+ruby '2.2.4'
