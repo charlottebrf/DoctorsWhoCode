@@ -44,6 +44,9 @@ get '/login' do
 
 	#END OF PURE DISPLAY SECTION
 
+	#DOES THIS ONLY HAPPEN WITH SUCCESSFUL LOGIN?
+	session[:authorised] = true 
+
 	# Your callback URL will now get a request that contains an oauth_verifier. 
 	# Use this and the request token from earlier to construct an access request.
 	request_token = OAuth::RequestToken.new(oauth, session[:request_token], session[:request_token_secret])
@@ -51,9 +54,6 @@ get '/login' do
 
 	# Get account details from Twitter
 	@twitter_details = oauth.request(:get, '/account/verify_credentials.json', access_token, {:scheme => :query_string})
-
-	#DOES THIS ONLY HAPPEN WITH SUCCESSFUL LOGIN?
-	session[:authorised] = true 
 
    # erb :login
 end
