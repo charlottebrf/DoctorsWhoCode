@@ -7,6 +7,10 @@ body {
 	text-align: center;
 }
 
+.go-back{
+	margin-top: 50px;
+}
+
 #header-text{
 	color: white;
 	padding: 10px;
@@ -30,3 +34,4 @@ body {
 .activity-summary-text{
 	margin-top: 100px;
 }
+
