@@ -7,6 +7,10 @@ body {
 	text-align: center;
 }
 
+.login-text{
+	margin-bottom: 50px;
+}
+
 .go-back{
 	margin-top: 50px;
 }
