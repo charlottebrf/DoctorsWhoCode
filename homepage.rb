@@ -2,6 +2,7 @@ require 'sinatra'
 require 'omniauth-twitter'
 require 'json'
 require 'chartkick'
+require 'oauth'
 
 
 use OmniAuth::Builder do
@@ -31,8 +32,6 @@ get '/' do
     redirect to("/homepage")
   else
     erb :startpage
-  end
-end
 
 
 get '/login' do
@@ -60,7 +59,6 @@ get '/homepage' do
   get_today_summary_data()
   @autocomplete_suggestions = get_autocomplete_suggestions()
   erb :homepage
-end
 
 
 get '/week' do
