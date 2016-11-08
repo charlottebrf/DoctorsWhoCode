@@ -59,12 +59,15 @@ get '/login' do
 end
 
 
-get '/loggedout' do
-  erb :notloggedin
+get '/logout' do
+  session[:authorised] = nil
+  redirect "https://twitter.com/"
+  #erb :notloggedin
 end
 
 
 get '/homepage' do	
+	halt erb(:notloggedin) unless authorised?
 	get_today_summary_data()
 	@autocomplete_suggestions = get_autocomplete_suggestions()
 	erb :homepage
@@ -72,12 +75,14 @@ end
 
 
 get '/week' do
+	halt erb(:notloggedin) unless authorised?
 	get_week_summary_data()	
 	erb :week
 end
 
 
 get '/month' do
+	halt erb(:notloggedin) unless authorised?
 	get_month_summary_data()	
 	erb :month
 end
