@@ -3,6 +3,7 @@ GEM
   specs:
     chartkick (2.1.1)
     json (2.0.2)
+    oauth (0.5.1)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -18,6 +19,7 @@ PLATFORMS
 DEPENDENCIES
   chartkick
   json
+  oauth
   sinatra
 
 BUNDLED WITH

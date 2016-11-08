@@ -3,5 +3,5 @@ source "https://rubygems.org"
 
 gem 'sinatra'
 gem 'json'
-#gem 'date'
 gem 'chartkick'
+gem 'oauth'

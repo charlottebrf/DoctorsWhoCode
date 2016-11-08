@@ -2,6 +2,23 @@ require 'sinatra'
 require 'json'
 require 'date'
 require 'chartkick'
+require 'oauth'
+
+
+##STUFF TO BLOCK PAGE ACCESS IF USER NOT SIGNED IN##
+
+configure do
+  enable :sessions
+end
+
+
+helpers do
+  def authorised?
+    session[:authorised]
+  end
+end
+
+##END OF STUFF##
 
 
 get '/' do
@@ -9,28 +26,45 @@ get '/' do
 end
 
 
-get '/signup' do
-	
-    erb :signup
-end
-
-
 get '/login' do
-    erb :login
+
+	#DISPLAY APP'S TWITTER AUTHORIZATION PAGE
+
+	consumer_key = "8aLsCR1VgiOHWQ5GmiGhPYrqG"	
+	consumer_secret = "cYcZsp8sCh9bR0MDbhyPr51uWajq0GGopOrnEOOiBL1s2eq7nT"
+	callback_url = "http://evening-lowlands-39707.herokuapp.com"	#Where to take them when login successful
+
+	oauth = OAuth::Consumer.new(consumer_key, consumer_secret, {:site => "https://twitter.com"})
+
+	request_token = oauth.get_request_token(:oauth_callback => callback_url)
+	session[:token] = request_token.token
+	session[:secret] = request_token.secret
+
+	redirect request_token.authorize_url	# Sends user to Twitter to be authenticated
+
+	#END OF PURE DISPLAY SECTION
+
+	# Your callback URL will now get a request that contains an oauth_verifier. 
+	# Use this and the request token from earlier to construct an access request.
+	request_token = OAuth::RequestToken.new(oauth, session[:request_token], session[:request_token_secret])
+	access_token = request_token.get_access_token(:oauth_verifier => params[:oauth_verifier])
+
+	# Get account details from Twitter
+	@twitter_details = oauth.request(:get, '/account/verify_credentials.json', access_token, {:scheme => :query_string})
+
+	#DOES THIS ONLY HAPPEN WITH SUCCESSFUL LOGIN?
+	session[:authorised] = true 
+
+   # erb :login
 end
 
 
-post ("/createaccount") do
-	"Debugging message. I'm not built yet. Can redirec to /homepage for demonstration purposes if we can't get login working"
+get '/loggedout' do
+  erb :notloggedin
 end
 
 
-post ("/loggedin") do
-	"Debugging message. I'm not built yet. Can redirec to /homepage for demonstration purposes if we can't get login working"
-end
-
-
-get '/homepage' do
+get '/homepage' do	
 	get_today_summary_data()
 	@autocomplete_suggestions = get_autocomplete_suggestions()
 	erb :homepage
