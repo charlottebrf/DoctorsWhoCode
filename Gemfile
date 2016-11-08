@@ -5,3 +5,5 @@ gem 'sinatra'
 gem 'json'
 gem 'chartkick'
 gem 'omniauth-twitter'
+
+ruby 2.2.4
