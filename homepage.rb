@@ -7,11 +7,10 @@ require 'oauth'
 
 use OmniAuth::Builder do
   provider :twitter, '8aLsCR1VgiOHWQ5GmiGhPYrqG', 'cYcZsp8sCh9bR0MDbhyPr51uWajq0GGopOrnEOOiBL1s2eq7nT',
-  {
-      :authorize_params => {
-        :force_login => 'true'
-      }
+  {:authorize_params => {
+    :force_login => 'true'
     }
+  }
 end
 
 
@@ -57,7 +56,6 @@ end
 
 get '/homepage' do
   halt erb(:notauth) unless admin?
-  $user_name = $user_name
   get_today_summary_data()
   @autocomplete_suggestions = get_autocomplete_suggestions()
   erb :homepage
@@ -86,20 +84,21 @@ end
 
 #Get user data for logging (via post request)
 post ("/log") do
+  @user = $user_id.to_s
   @activity_logged = params[:activity_to_log]
   @minutes_spent = params[:duration]
   @type = params[:task_type]
   @date = Date.today
-  log_activity_to_json(@activity_logged, @minutes_spent, @date, @type) 
+  log_activity_to_json(@user, @activity_logged, @minutes_spent, @date, @type) 
   redirect "/homepage"
 end
 
 
 #Don't forget to initialise the .json file with [] (this means we need to push such a file to heroku for demo day)
-def log_activity_to_json(activity_logged, minutes_spent, date, type)
+def log_activity_to_json(user, activity_logged, minutes_spent, date, type)
   json_string = File.read('loggedactivities.json')
   activities_logged = JSON.load(json_string)
-  activities_logged << {name: activity_logged, duration: minutes_spent, date: date, type: type}
+  activities_logged << {user: user, name: activity_logged, type: type, duration: minutes_spent, date: date}
   File.write('loggedactivities.json', activities_logged.to_json)
 end
 
@@ -115,8 +114,14 @@ end
 def get_autocomplete_suggestions  
   log_file = 'loggedactivities.json'
   data_hash = get_data_from_json_file(log_file)
-  autocomplete_suggestions = data_hash.uniq { |row| row["name"] }
-  return autocomplete_suggestions
+  my_activities_only = []
+  for entry in data_hash
+    if entry["user"] == $user_id
+      my_activities_only << {"user" => entry["user"], "name" => entry["name"], "type" => entry["type"], "duration" => entry["duration"], "date" => entry["date"]}
+    end
+  end
+  autocomplete_suggestions = my_activities_only.uniq { |row| row["name"] }   
+  return autocomplete_suggestions 
 end
 
 
