@@ -80,7 +80,7 @@ end
 
 get '/logout' do
   session[:admin] = nil
-  erb :notauth
+  erb :signedout
 end
 
 
