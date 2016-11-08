@@ -136,7 +136,7 @@ def get_today_summary_data
   interim_activity_list = []  #intermediate step so we can up up all durations for a single activity
 
   for entry in @log_entries   
-    if entry["date"] == today
+    if (entry["date"] == today) && (entry["user"] == $user_id)
       all_activities_entered_today << {"name" => entry["name"], "duration" => entry["duration"].to_i} 
       interim_activity_list << {"name" => entry["name"], "duration" => 0}     
     end   
@@ -209,7 +209,7 @@ def get_week_summary_data
   interim_activity_list = []  
 
   for entry in @log_entries   
-    if (entry["date"] <= today) && (entry["date"] >= a_week_ago)
+    if ((entry["date"] <= today) && (entry["date"] >= a_week_ago)) && (entry["user"] == $user_id)
       all_activities_entered_week << {"name" => entry["name"], "duration" => entry["duration"].to_i}  
       interim_activity_list << {"name" => entry["name"], "duration" => 0}     
     end   
@@ -249,7 +249,7 @@ def get_month_summary_data
   interim_activity_list = []  
 
   for entry in @log_entries   
-    if (entry["date"] <= today) && (entry["date"] >= a_month_ago)
+    if ((entry["date"] <= today) && (entry["date"] >= a_month_ago)) && (entry["user"] == $user_id)
       all_activities_entered_month << {"name" => entry["name"], "duration" => entry["duration"].to_i} 
       interim_activity_list << {"name" => entry["name"], "duration" => 0}     
     end   
