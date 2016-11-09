@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+ <html>
+
+	 <head>
+
+ 	 	<meta charset="utf-8">
+	 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	 	<meta name="viewport" content="width=500">
+
+	 	<!--Boostrap must come before local css definitions-->
+	 	<link href="./css/bootstrap.css" rel="stylesheet" type="text/css">
+ 	 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	 	<link rel="stylesheet" href="./css/jquery-ui.css">
+	 	<link href="./css/bootstrap-select.css" rel="stylesheet" type="text/css">
+	 	<link href="./css/main.css" rel="stylesheet" type="text/css">
+
+	 	<!--JQuery .js must come before Bootstrap .js, or stuff won't work-->
+		<script src="./js/jquery-3.1.1.js"></script>
+		<script src="./js/jquery-ui.js"></script>
+		<script src="https://www.google.com/jsapi"></script>
+		<script src="./js/bootstrap.js"></script>
+		<script src="./js/bootstrap-select.js"></script>
+    	<script src="./js/chartkick.js" type="text/javascript"></script>
+
+		<script type="text/javascript">
+
+			function validation_message() {
+
+				var activity = document.getElementById("target_activity").value;
+				var duration = document.getElementById("target_minutes").value;
+
+		       	if (activity == "" || duration == ""){
+		    		alert("Please fill out both fields");
+		    		return false;
+		    	}
+
+		       	if (duration < 0){
+		    		alert("Please enter a valid duration.");
+		    		return false;
+		    	}
+
+		       	if (duration == 0){
+		    		alert("Did you mean to enter zero?\nPlease enter a valid duration.");
+		    		return false;
+		    	}
+
+		    	//how to validate against a duration and a radio button selection? Need 3 options if we can do that
+		       	if ((duration > 1440) && (document.getElementById("day").checked == true)){
+		    		alert("There are only 1440 minutes in a day!\nPlease enter a valid duration.");
+		    		return false;
+		    	}
+
+		       	if ((duration > 10080) && (document.getElementById("week").checked == true)){
+		    		alert("There are only 10080 minutes in a week!\nPlease enter a valid duration.");
+		    		return false;
+		    	}
+
+		       	if ((duration > 43200) && (document.getElementById("month").checked == true)){
+		    		alert("There are only 43200 minutes in 30 days!\nPlease enter a valid duration.");
+		    		return false;
+		    	}
+
+		    	//how to validate against a duration and a radio button selection?
+			    else{
+		       		alert("Target set. Good luck!");
+		        	return true;
+		    	}
+			}
+
+			function confirmDeletion() {
+
+				var target_to_delete = document.getElementById("delete_target").value;
+
+		       	if (target_to_delete == ""){
+		    		alert("Please select a target to delete.");
+		    		return false;
+		    	}
+
+		    	else{
+				    if (confirm("This action cannot be undone!\nIf you want to continue, click \'OK\'") == true) {
+				    	return true;
+				    } 
+
+				    else {
+				    	return false;
+				    }
+				}
+			}
+
+ 		</script>
+
+		<title>My Time Manager</title>
+
+		<link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
+
+	</head>
+
+	<body>
+
+		<!--This is the navigation bar fixed to top of page-->
+		<nav class="navbar navbar-inverse navbar-fixed-top" id="header-text">
+
+	  		<!--not sure why container-fluid needs to be used, but documentation says use it-->
+		    <div class="container-fluid">
+
+			    <div class="navbar-header col-xs-11">
+
+			    	<p><a href="/"><img src ="./images/favicon.ico"></a>&nbsp;&nbsp;<%= $user_name %>'s Time Manager</p>
+
+			    </div>
+
+			    <div class="navbar-header col-xs-1">
+
+					<a href="/logout"><button class="btn btn-sm btn-default">Log Out</button></a>
+
+			    </div>
+
+			</div>
+
+		<!--end of nav bar code-->
+		</nav>
+		
+			<div class="row">
+
+			    <div class="col-md-offset-2 col-md-10 col-xs-11 col-xs-offset-1">
+
+			    	<h2>My Targets</h2>
+					
+			    	<% if @day_targets.empty? && @week_targets.empty? && @month_targets.empty?%>
+
+			    		<p>You haven't set any targets yet</p>
+
+			    	<% else %>
+
+				    	<p>Your current targets are:</p>
+						
+						<ul>
+
+							<% for row in @day_targets %>
+								
+								<li><%= row["target_minutes"]%> minutes of <%= row["target_activity"]%> per <%= row["period"]%></li>
+
+							<% end %>
+
+							<% for row in @week_targets %>
+								
+								<li><%= row["target_minutes"]%> minutes of <%= row["target_activity"]%> per <%= row["period"]%></li>
+
+							<% end %>
+
+							<% for row in @month_targets %>
+								
+								<li><%= row["target_minutes"]%> minutes of <%= row["target_activity"]%> per <%= row["period"]%></li>
+
+							<% end %>
+
+						</ul>
+
+					<% end %>
+
+				</div>
+
+			</div>
+
+		<!--start of row-->
+			<div class="row">
+
+			    <div class="col-md-offset-2 col-md-10 col-xs-10 col-xs-offset-1">
+
+			    	<h3 class="target-heading">Set new target</h3>
+					
+			    	<p>You can only set a target time against an activity you've already logged.</p>
+
+					<form method="POST" name"myTargetsForm" onsubmit="return validation_message();" action="/settarget">
+
+						<div class="form-group">
+
+<!-- 							<div class="input-group col-md-3 col-xs-5">
+
+								<input class="form-control" type="number" step="1" min="0" id="target_minutes" name="target_minutes" placeholder="Target time in minutes" required="required">															
+					    	</div> -->
+
+
+							<label class="control-label"></label>
+
+							<div class="input-group col-md-3 col-xs-6">
+
+								<span class="input-group-addon">Target minutes</span>
+
+								<input class="form-control" type="number" step="1" min="0" id="target_minutes" name="target_minutes" placeholder="" required="required">
+
+							</div>
+
+							<label class="control-label"></label>
+
+							<div class="input-group col-md-7 col-xs-8">
+
+					    		<select name="target_activity" id="target_activity" class="selectpicker" data-live-search="true">
+						    		
+						    		<option value="">Select from target list</option>
+
+						    		<% for row in @autocomplete_suggestions %>
+
+						    			<option value="<%= row["name"] %>"><%= row["name"].capitalize %></option>
+								
+									<% end %>
+								
+								</select>
+
+							</div> 
+
+							<label class="control-label"></label>
+
+							<div class="input-group col-md-7 col-xs-7">
+
+								<label class="radio-inline"><input type="radio" name="period" id="day" value="day" checked="checked" required="required">Daily</label>
+
+								<label class="radio-inline"><input type="radio" name="period" id="week" value="week" required="required">Weekly</label>
+								
+								<label class="radio-inline"><input type="radio" name="period" id="month" value="month" required="required">Monthly</label>
+							
+							</div>
+  							
+						</div>
+	        			
+	        			<button type="submit" class="btn btn-success">Set Target</button>
+
+					</form>
+					
+				</div>
+
+			</div>
+			<!--end of row-->
+
+			<!--start of row-->
+			<div class="row">
+
+			    <div class="col-md-offset-2 col-md-10 col-xs-11 col-xs-offset-1">
+
+			    	<h3 class="target-heading">Delete target</h3>
+					
+					<p>Non-functional. For demonstration purposes only</p>
+
+					<form method="POST" name"removeTargetsForm" onsubmit="return confirmDeletion();" action="#">
+
+						<div class="form-group">
+
+							<div class="input-group col-md-7 col-xs-7">
+								
+					    		<select name="delete_target" id="delete_target" class="selectpicker" data-live-search="true">
+						    		
+						    		<option value="">Select from target list</option>
+
+						    		<% for row in @target_entries %>
+
+						    			<% if (row["user"] == $user_id) %> 
+						    			
+						    				<option value=""><%= row["target_minutes"]%> minutes of <%= row["target_activity"]%> per <%= row["period"]%></option>
+										
+										<% end %>
+									
+									<% end %>
+								
+								</select>
+						
+							</div>
+  							
+						</div>
+
+	        			<button type="submit" class="btn btn-danger">Delete Target</button>
+
+					</form>
+					
+				</div>
+
+			</div>
+			<!--end of row-->
+
+			</div>
+		<!--this /div closes the container-->
+	    </div>
+
+	</body>
+
+</html>

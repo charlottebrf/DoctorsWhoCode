@@ -11,6 +11,10 @@ body {
 	margin-bottom: 50px;
 }
 
+.target-heading{
+	margin-top: 60px;
+}
+
 .go-back{
 	margin-top: 50px;
 }
@@ -24,6 +28,10 @@ body {
 
 #log-activity-section{
 	text-align: left;
+}
+
+.homepage-headings{
+	margin-top: 60px;
 }
 
 .activity-radio-buttons{
