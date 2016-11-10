@@ -99,8 +99,8 @@ post ('/deletetarget') do
   data_hash = get_data_from_json_file("targets.json")
   data_for_target_to_delete = params[:delete_target].split(%r{,\s*})  
   for entry in data_hash
-    if entry["target_activity"] == data_for_target_to_delete[1]
-      @updated_target_list = data_hash.delete_if { |h| h["target_activity"] == data_for_target_to_delete[1] }
+    if (entry["target_minutes"] == data_for_target_to_delete[0]) && (entry["target_activity"] == data_for_target_to_delete[1]) && (entry["period"] == data_for_target_to_delete[2])
+       @updated_target_list = data_hash.delete_if { |h| (h["target_minutes"] == data_for_target_to_delete[0] && h["target_activity"] == data_for_target_to_delete[1] && h["period"] == data_for_target_to_delete[2]) }
     end
   end  
   write_updated_target_list_to_json(@updated_target_list)
