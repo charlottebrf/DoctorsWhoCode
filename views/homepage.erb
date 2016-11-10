@@ -213,9 +213,42 @@
 
 			    	<h2 class="homepage-headings">My Targets
 					</h2>
+					<p>Display summary target info here. Tell me how far I am away from my targets</p>
+
+					<% if @day_targets.empty? && @week_targets.empty? && @month_targets.empty?%>
+
+			    		<p>You haven't set any targets yet.</p>
+
+			    	<% else %>
+
+				    	<p>Your current targets are:</p>
+						
+						<ul>
+
+							<% for row in @day_targets %>
+								
+								<li><%= row["target_minutes"]%> minutes of <%= row["target_activity"]%> per <%= row["period"]%></li>
+
+							<% end %>
+
+							<% for row in @week_targets %>
+								
+								<li><%= row["target_minutes"]%> minutes of <%= row["target_activity"]%> per <%= row["period"]%></li>
+
+							<% end %>
+
+							<% for row in @month_targets %>
+								
+								<li><%= row["target_minutes"]%> minutes of <%= row["target_activity"]%> per <%= row["period"]%></li>
+
+							<% end %>
+
+						</ul>
+
+					<% end %>
+
 					<a href="/targets"> <button class="btn btn-xs btn-default">Go To Targets</button></a>
-			    	<p>Display summary target info here. Tell me how far I am away from my targets</p>
-															
+			    												
 				</div>
 
 			</div>

@@ -125,15 +125,13 @@
 
 			    <div class="col-md-offset-2 col-md-10 col-xs-11 col-xs-offset-1">
 
-			    	<h2>My Targets</h2>
+			    	<h3>My Targets</h3>
 					
 			    	<% if @day_targets.empty? && @week_targets.empty? && @month_targets.empty?%>
 
-			    		<p>You haven't set any targets yet</p>
+			    		<p>You haven't set any targets yet.</p>
 
 			    	<% else %>
-
-				    	<p>Your current targets are:</p>
 						
 						<ul>
 
@@ -240,9 +238,7 @@
 
 			    	<h3 class="target-heading">Delete target</h3>
 					
-					<p>Non-functional. For demonstration purposes only</p>
-
-					<form method="POST" name"removeTargetsForm" onsubmit="return confirmDeletion();" action="#">
+					<form method="POST" name"removeTargetsForm" onsubmit="return confirmDeletion();" action="/deletetarget">
 
 						<div class="form-group">
 
@@ -256,7 +252,7 @@
 
 						    			<% if (row["user"] == $user_id) %> 
 						    			
-						    				<option value=""><%= row["target_minutes"]%> minutes of <%= row["target_activity"]%> per <%= row["period"]%></option>
+						    				<option value="<%= row["target_minutes"]%>,<%= row["target_activity"]%>,<%= row["period"]%>"><%= row["target_minutes"]%> minutes of <%= row["target_activity"]%> per <%= row["period"]%></option>
 										
 										<% end %>
 									

@@ -57,6 +57,7 @@ end
 get '/homepage' do
   halt erb(:notauth) unless admin?
   get_today_summary_data()
+  get_target_data()
   @autocomplete_suggestions = get_autocomplete_suggestions()
   erb :homepage
 end
@@ -75,6 +76,7 @@ get '/month' do
   erb :month
 end
 
+
 get '/targets' do
   halt erb(:notauth) unless admin?
   @autocomplete_suggestions = get_autocomplete_suggestions()
@@ -82,13 +84,27 @@ get '/targets' do
   erb :targets
 end
 
+
 post ('/settarget') do
   @target_activity = params[:target_activity]
   puts "\n\n\n #{@target_activity}"
   @target_minutes = params[:target_minutes]
   @period = params[:period]
   log_targets_to_json(@target_activity, @target_minutes, @period) 
-  redirect "/homepage"
+  redirect "/targets"
+end
+
+
+post ('/deletetarget') do
+  data_hash = get_data_from_json_file("targets.json")
+  data_for_target_to_delete = params[:delete_target].split(%r{,\s*})  
+  for entry in data_hash
+    if entry["target_activity"] == data_for_target_to_delete[1]
+      @updated_target_list = data_hash.delete_if { |h| h["target_activity"] == data_for_target_to_delete[1] }
+    end
+  end  
+  write_updated_target_list_to_json(@updated_target_list)
+  redirect "/targets"
 end
 
 
@@ -116,6 +132,11 @@ def log_targets_to_json(target_activity, target_minutes, period)
   targets_set = JSON.load(json_string)
   targets_set << {user: $user_id, target_activity: target_activity, target_minutes: target_minutes, period: period}
   File.write('targets.json', targets_set.to_json)
+end
+
+def write_updated_target_list_to_json(new_list)
+  json_string = File.read('targets.json')
+  File.write('targets.json', new_list.to_json)
 end
 
 
@@ -274,14 +295,5 @@ def get_target_data
       @month_targets << {"user" => entry["user"], "target_activity" => entry["target_activity"], "target_minutes" => entry["target_minutes"], "period" => entry["period"]}
     end  
   end
-
-  # DEBUGGING
-  puts "\n\n\n***********"
-  puts @target_entries
-  puts @day_targets
-  puts @week_targets
-  puts @month_targets
-  puts "\n\n\n***********"
-  # DEBUGGING
 
 end
