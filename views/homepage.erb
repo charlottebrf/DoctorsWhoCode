@@ -43,9 +43,9 @@
 
 			function validation_message() {
 
-				var activity = document.getElementById("activity_to_log").value;
+				var activity = ((document.getElementById("activity_to_log").value).replace(/,+/, ' ')).replace(/ {2,}/, ' ');
 				var duration = document.getElementById("duration").value;
-
+				
 		       	if (activity == "" || duration == ""){
 		    		alert("Please fill out both fields");
 		    		return false;
@@ -126,7 +126,7 @@
 
 								<span class="input-group-addon">How many minutes?</span>
 
-								<input class="form-control" type="number" step="1" min="0" id="duration" name="duration" placeholder="" required="required">
+								<input class="form-control" type="number" step="1" min="0" id="duration" name="duration" placeholder="" required="required" autofocus>
 
 							</div>
 
@@ -136,7 +136,7 @@
 
 								<span class="input-group-addon">Doing what?</span>
 
-								<input class="form-control" type="text" maxlength="30" id="activity_to_log" name="activity_to_log" placeholder="Enter activity..."required="required">
+								<input class="form-control" type="text" maxlength="30" id="activity_to_log" name="activity_to_log" pattern="[^,]+" title="Invalid input" placeholder="Enter activity..."required="required">
 
 							</div>
 

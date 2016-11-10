@@ -121,6 +121,14 @@ post ("/log") do
   @minutes_spent = params[:duration]
   @type = params[:task_type]
   @date = Date.today
+  #Remove commas if present in text input field, so we can set and delete targets later
+  if @activity_logged =~ /,(.*)/
+    @activity_logged = @activity_logged.gsub(/,/,' ').squeeze(" ")
+  end
+  #Keep only one space if more than one space in a row is present in input field
+  if @activity_logged =~ /\s*/
+    @activity_logged = @activity_logged.squeeze(" ")
+  end
   log_activity_to_json(@user, @activity_logged, @minutes_spent, @date, @type) 
   redirect "/homepage"
 end
