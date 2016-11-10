@@ -90,13 +90,13 @@
 
 			    <div class="navbar-header col-xs-11">
 
-			    	<p><a href="/"><img src ="./images/favicon.ico"></a>&nbsp;&nbsp;<%= $user_name %>'s Time Manager</p>
+			    	<p><a href="/"><img src ="./images/home.png"></a>&nbsp;&nbsp;<%= $user_name %>'s Time Manager</p>
 
 			    </div>
 
 			    <div class="navbar-header col-xs-1">
 
-					<a href="/logout"><button class="btn btn-sm btn-default">Log Out</button></a>
+					<a href="/logout"><button class="btn btn-xs btn-default">Log Out</button></a>
 
 			    </div>
 
@@ -173,7 +173,7 @@
 			    <div class="col-md-10 col-xs-10" id="activity-summary-section">
 
 			    	<h2 class="homepage-headings">Today's Activity Summary</h2>
-			    	<a href="/week"><button class="btn btn-xs btn-default">MY WEEK</button></a> <a href="/month"><button class="btn btn-xs btn-default">MY MONTH</button></a>
+			    	<a href="/week"><button class="btn btn-xs btn-default summary-buttons">MY WEEK</button></a> <a href="/month"><button class="btn btn-xs btn-default summary-buttons">MY MONTH</button></a>
 
 			    	<% if @graph_data.empty? %>
 
@@ -196,6 +196,10 @@
 
 							<p>You spent <%= @most_time_spent[1] %> minutes on <%= @most_time_spent[0] %> today.</p>
 
+							<div>
+							    <%= bar_chart(@graph_data, id: "activity-summary", width: "100%", xtitle: "Minutes Spent Today") %>
+							</div>
+
 				    	<%end %>
 
 					<% end %>
@@ -213,7 +217,6 @@
 
 			    	<h2 class="homepage-headings">My Targets
 					</h2>
-					<p>Display summary target info here. Tell me how far I am away from my targets</p>
 
 					<% if @day_targets.empty? && @week_targets.empty? && @month_targets.empty?%>
 
@@ -247,7 +250,7 @@
 
 					<% end %>
 
-					<a href="/targets"> <button class="btn btn-xs btn-default">Go To Targets</button></a>
+					<a href="/targets"> <button class="btn btn-xs btn-default go-to-targets-button">Go To Targets</button></a>
 			    												
 				</div>
 

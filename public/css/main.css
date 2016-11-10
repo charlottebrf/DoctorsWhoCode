@@ -21,7 +21,7 @@ body {
 
 #header-text{
 	color: white;
-	padding: 10px;
+    padding: 10px 10px 0px 10px;
 	font-size: 20px;
 	font-weight: bold;
 }
@@ -45,5 +45,13 @@ body {
 
 .activity-summary-text{
 	margin-top: 100px;
+}
+
+.summary-buttons{
+	margin-bottom: 30px;
+}
+
+.go-to-targets-button{
+	margin-top: 30px;
 }
 

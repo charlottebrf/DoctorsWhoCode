@@ -36,13 +36,13 @@
 
 			    <div class="navbar-header col-xs-11">
 
-					<p><a href="/homepage"><img src ="./images/favicon.ico"></a>&nbsp;&nbsp;<%= $user_name %>'s Time Manager</p>
+					<p><a href="/homepage"><img src ="./images/home.png"></a>&nbsp;&nbsp;<%= $user_name %>'s Time Manager</p>
 
 			    </div>
 
 			    <div class="navbar-header col-xs-1">
 
-					<a href="/logout"><button class="btn btn-sm btn-default">Log Out</button></a>
+					<a href="/logout"><button class="btn btn-xs btn-default">Log Out</button></a>
 
 			    </div>
 
@@ -62,7 +62,7 @@
 
 			    	<h2>My activity for the past 7 days</h2>
 					
-					<a href="/homepage"><button class="btn btn-xs btn-default">TODAY</button></a>   <a href="/month"><button class="btn btn-xs btn-default">MY MONTH</button></a>					
+					<a href="/homepage"><button class="btn btn-xs btn-default summary-buttons">TODAY</button></a>   <a href="/month"><button class="btn btn-xs btn-default summary-buttons">MY MONTH</button></a>					
 
 			    	<% if @graph_data_week.empty? %>
 
