@@ -56,30 +56,37 @@ end
 
 get '/homepage' do
   halt erb(:notauth) unless admin?
-  get_today_summary_data()
+  data = load_data()
+  @summary_data = get_today_summary_data(data)
+  @work_data = get_today_work_data(data)
   get_target_data()
-  @autocomplete_suggestions = get_autocomplete_suggestions()
+  @autocomplete_suggestions = get_autocomplete_suggestions(data)
   erb :homepage
 end
 
 
 get '/week' do
   halt erb(:notauth) unless admin?
-  get_week_summary_data() 
+  data = load_data()
+  @summary_data = get_week_summary_data(data)
+  @work_data = get_week_work_data(data)
   erb :week
 end
 
 
 get '/month' do
   halt erb(:notauth) unless admin?
-  get_month_summary_data()  
+  data = load_data()
+  @summary_data = get_month_summary_data(data)
+  @work_data = get_month_work_data(data)
   erb :month
 end
 
 
 get '/targets' do
   halt erb(:notauth) unless admin?
-  @autocomplete_suggestions = get_autocomplete_suggestions()
+  data = load_data()
+  @autocomplete_suggestions = get_autocomplete_suggestions(data)
   get_target_data()
   erb :targets
 end
@@ -165,11 +172,9 @@ def get_data_from_json_file(filename)
 end
 
 
-def get_autocomplete_suggestions  
-  log_file = 'loggedactivities.json'
-  data_hash = get_data_from_json_file(log_file)
+def get_autocomplete_suggestions (log_entries)
   my_activities_only = []
-  for entry in data_hash
+  for entry in log_entries
     if entry["user"] == $user_id
       my_activities_only << {"user" => entry["user"], "name" => entry["name"], "type" => entry["type"], "duration" => entry["duration"], "date" => entry["date"]}
     end
@@ -178,111 +183,148 @@ def get_autocomplete_suggestions
   return autocomplete_suggestions 
 end
 
-
-#Get log data from today and prepare it for graph/summary in erb file
-def get_today_summary_data
-  log_file = 'loggedactivities.json'
-  @log_entries = get_data_from_json_file(log_file)
-  today = Date.today.to_s   #convert to string so it can be compared with hash contents
-  @todays_graph_data = {}
-  @todays_text_data = {}
-  all_activities_entered_today =[]
-  interim_activity_list = []  #intermediate step so we can up up all durations for a single activity
-  for entry in @log_entries   
-    if (entry["date"] == today) && (entry["user"] == $user_id)
-      all_activities_entered_today << {"name" => entry["name"], "duration" => entry["duration"].to_i} 
-      interim_activity_list << {"name" => entry["name"], "duration" => 0}     
-    end   
-  end
-  day_summary_of_unique_activities = interim_activity_list.uniq { |row| row["name"] } #creates list of unique activities based on name
-  for entry in day_summary_of_unique_activities
-    for item in all_activities_entered_today
-      if entry["name"] == item["name"]            
+def get_data(activity_list, interim_activity_list, key_name)
+  # Extract logic below into common method, pass in interim_activity_list, all_activities_entered_today
+  graph_data = {}
+  text_data = {}
+  summary_of_unique_activities = interim_activity_list.uniq { |row| row[key_name] } #creates list of unique activities based on name
+  for entry in summary_of_unique_activities
+    for item in activity_list
+      if entry[key_name] == item[key_name]            
         entry["duration"] += item["duration"]         #Adds to duration for every value/duplicate value found
       end
     end
   end
   #remap hashes to name=>duration pairs
-  for entry in day_summary_of_unique_activities
-    day_summary_of_unique_activities.each{|k,v| @todays_graph_data[entry["name"].upcase]=entry["duration"].to_i}    
-    day_summary_of_unique_activities.each{|k,v| @todays_text_data[entry["name"]]=entry["duration"].to_i}
-  end    
-  @graph_data = @todays_graph_data.sort_by { |k,v| -v} 
-  @text_data = @todays_text_data.sort_by { |k,v| -v} 
-  @most_time_spent = @text_data[0]
-  @least_time_spent = @text_data[-1]  
+  for entry in summary_of_unique_activities
+    summary_of_unique_activities.each{|k,v| graph_data[entry[key_name].upcase]=entry["duration"].to_i}    
+    summary_of_unique_activities.each{|k,v| text_data[entry[key_name]]=entry["duration"].to_i}
+  end
+
+  summary_data = Hash.new
+  summary_data["graph_data"] = graph_data.sort_by { |k,v| -v} 
+  summary_data["text_data"] = text_data.sort_by { |k,v| -v} 
+  summary_data["most_time_spent"] = summary_data["text_data"][0]
+  summary_data["least_time_spent"] = summary_data["text_data"][-1]
+
+  return summary_data
+end
+
+def load_data
+  log_file = 'loggedactivities.json'
+
+  return get_data_from_json_file(log_file)
+end
+
+#Get log data from today and prepare it for graph/summary in erb file
+def get_today_summary_data (log_entries)
+
+  # Refactor log file parsing into external method and pass in as local parameter, not instance variable (no '@')
+  
+  today = Date.today.to_s   #convert to string so it can be compared with hash contents
+  all_activities_entered_today =[]
+  interim_activity_list = []  #intermediate step so we can up up all durations for a single activity
+  for entry in log_entries   
+    if (entry["date"] == today) && (entry["user"] == $user_id)
+      all_activities_entered_today << {"name" => entry["name"].upcase, "duration" => entry["duration"].to_i} 
+      interim_activity_list << {"name" => entry["name"].upcase, "duration" => 0}     
+    end   
+  end
+
+  return get_data(all_activities_entered_today, interim_activity_list, "name") # Retrieve from common method
+end
+
+def get_today_work_data (log_entries)
+  today = Date.today.to_s   #convert to string so it can be compared with hash contents
+  todays_work_data = {}
+  todays_text_data = {}
+  all_activities_entered_today =[]
+  interim_activity_list = []  #intermediate step so we can up up all durations for a single activity
+  for entry in log_entries   
+    if (entry["date"] == today) && (entry["user"] == $user_id)
+      all_activities_entered_today << {"type" => entry["type"], "duration" => entry["duration"].to_i} 
+      interim_activity_list << {"type" => entry["type"], "duration" => 0}     
+    end   
+  end
+
+  return get_data(all_activities_entered_today, interim_activity_list, "type") # Retrieve from common method
 end
 
 
-def get_week_summary_data
-  log_file = 'loggedactivities.json'
-  @log_entries = get_data_from_json_file(log_file)
+def get_week_summary_data (log_entries)
   now = Date.today
   today = now.to_s
   a_week_ago = (now-7).to_s   
-  @week_graph_data = {}
-  @week_text_data = {}
+  week_graph_data = {}
+  week_text_data = {}
   all_activities_entered_week =[]
   interim_activity_list = []  
-  for entry in @log_entries   
+  for entry in log_entries   
     if ((entry["date"] <= today) && (entry["date"] >= a_week_ago)) && (entry["user"] == $user_id)
       all_activities_entered_week << {"name" => entry["name"], "duration" => entry["duration"].to_i}  
       interim_activity_list << {"name" => entry["name"], "duration" => 0}     
     end   
   end
-  week_summary_of_unique_activities = interim_activity_list.uniq { |row| row["name"] }
-  for entry in week_summary_of_unique_activities
-    for item in all_activities_entered_week
-      if entry["name"] == item["name"]                
-        entry["duration"] += item["duration"]       
-      end
-    end
-  end
-  for entry in week_summary_of_unique_activities
-    week_summary_of_unique_activities.each{|k,v| @week_graph_data[entry["name"].upcase]=entry["duration"].to_i}   
-    week_summary_of_unique_activities.each{|k,v| @week_text_data[entry["name"]]=entry["duration"].to_i}
-  end
-  @graph_data_week = @week_graph_data.sort_by { |k,v| -v} 
-  @text_data_week = @week_text_data.sort_by { |k,v| -v} 
-  @most_time_spent_week = @text_data_week[0]
-  @least_time_spent_week = @text_data_week[-1]  
+
+  return get_data(all_activities_entered_week, interim_activity_list, "name") # Retrieve from common method 
 end
 
 
-def get_month_summary_data
-  log_file = 'loggedactivities.json'
-  @log_entries = get_data_from_json_file(log_file)
+def get_week_work_data (log_entries)
+  now = Date.today
+  today = now.to_s
+  a_week_ago = (now-7).to_s   
+  week_graph_data = {}
+  week_text_data = {}
+  all_activities_entered_week =[]
+  interim_activity_list = []  
+  for entry in log_entries   
+    if ((entry["date"] <= today) && (entry["date"] >= a_week_ago)) && (entry["user"] == $user_id)
+      all_activities_entered_week << {"type" => entry["type"], "duration" => entry["duration"].to_i}  
+      interim_activity_list << {"type" => entry["type"], "duration" => 0}     
+    end   
+  end
+
+  return get_data(all_activities_entered_week, interim_activity_list, "type") # Retrieve from common method 
+end
+
+
+def get_month_summary_data (log_entries)
   now = Date.today
   today = now.to_s
   a_month_ago = (now-30).to_s   
-  @month_graph_data = {}
-  @month_text_data = {}
+  month_graph_data = {}
+  month_text_data = {}
   all_activities_entered_month =[]
   interim_activity_list = []  
-  for entry in @log_entries   
+  for entry in log_entries   
     if ((entry["date"] <= today) && (entry["date"] >= a_month_ago)) && (entry["user"] == $user_id)
       all_activities_entered_month << {"name" => entry["name"], "duration" => entry["duration"].to_i} 
       interim_activity_list << {"name" => entry["name"], "duration" => 0}     
     end   
   end
-  month_summary_of_unique_activities = interim_activity_list.uniq { |row| row["name"] }
-  for entry in month_summary_of_unique_activities
-    for item in all_activities_entered_month
-      if entry["name"] == item["name"]                
-        entry["duration"] += item["duration"]       
-      end
-    end
-  end
-  for entry in month_summary_of_unique_activities
-    month_summary_of_unique_activities.each{|k,v| @month_graph_data[entry["name"].upcase]=entry["duration"].to_i}   
-    month_summary_of_unique_activities.each{|k,v| @month_text_data[entry["name"]]=entry["duration"].to_i}
-  end
-  @graph_data_month = @month_graph_data.sort_by { |k,v| -v} 
-  @text_data_month = @month_text_data.sort_by { |k,v| -v} 
-  @most_time_spent_month = @text_data_month[0]
-  @least_time_spent_month = @text_data_month[-1]  
+
+  return get_data(all_activities_entered_month, interim_activity_list, "name") # Retrieve from common method
 end
 
+
+def get_month_work_data (log_entries)
+  now = Date.today
+  today = now.to_s
+  a_month_ago = (now-30).to_s   
+  month_graph_data = {}
+  month_text_data = {}
+  all_activities_entered_month =[]
+  interim_activity_list = []  
+  for entry in log_entries   
+    if ((entry["date"] <= today) && (entry["date"] >= a_month_ago)) && (entry["user"] == $user_id)
+      all_activities_entered_month << {"type" => entry["type"], "duration" => entry["duration"].to_i} 
+      interim_activity_list << {"type" => entry["type"], "duration" => 0}     
+    end   
+  end
+
+  return get_data(all_activities_entered_month, interim_activity_list, "type") # Retrieve from common method
+end
 
 def get_target_data
   target_file = 'targets.json'

@@ -90,7 +90,7 @@
 
 			    <div class="navbar-header col-xs-11">
 
-			    	<p><a href="/"><img src ="./images/home.png"></a>&nbsp;&nbsp;<%= $user_name %>'s Time Manager</p>
+			    	<p><a href="/"><img src ="./images/home.png"></a>&nbsp;&nbsp;<%= $user_name %>'<% if !($user_name.to_s.end_with? "s") %>s<% end %> Time Manager</p>
 
 			    </div>
 
@@ -175,29 +175,32 @@
 			    	<h2 class="homepage-headings">Today's Activity Summary</h2>
 			    	<a href="/week"><button class="btn btn-xs btn-default summary-buttons">MY WEEK</button></a> <a href="/month"><button class="btn btn-xs btn-default summary-buttons">MY MONTH</button></a>
 
-			    	<% if @graph_data.empty? %>
+			    	<% if @summary_data["graph_data"].empty? %>
 
 						<p>Log your first activity of the day to get started.</p>
 
 					<% else %>
 
-						<% if @graph_data.length >1 %>
+						<% if @summary_data["graph_data"].length >1 %>
 
 							<ul>
-					    		<li><%= @most_time_spent[0].capitalize %> is what you spent the most time on (<%= @most_time_spent[1] %> minutes)</li>
-					    		<li><%= @least_time_spent[0].capitalize %> is what you spent the least time on (<%= @least_time_spent[1] %> minutes)</li>
+					    		<li><%= @summary_data["most_time_spent"][0].capitalize %> is what you spent the most time on (<%= @summary_data["most_time_spent"][1] %> minutes)</li>
+					    		<li><%= @summary_data["least_time_spent"][0].capitalize %> is what you spent the least time on (<%= @summary_data["least_time_spent"][1] %> minutes)</li>
 					    	</ul>
 
 							<div>
-							    <%= bar_chart(@graph_data, id: "activity-summary", width: "100%", xtitle: "Minutes Spent Today") %>
+							    <%= bar_chart(@summary_data["graph_data"], id: "activity-summary", width: "100%", xtitle: "Minutes Spent Today"
+							    ) %>
+							    <%= bar_chart(@work_data["graph_data"], id: "work-summary", width: "100%", xtitle: "Work vs. Not Work", color: "green") %>
 							</div>
 
 						<% else %>
 
-							<p>You spent <%= @most_time_spent[1] %> minutes on <%= @most_time_spent[0] %> today.</p>
+							<p>You spent <%= @summary_data["most_time_spent"][1] %> minutes on <%= @summary_data["most_time_spent"][0] %> today.</p>
 
 							<div>
-							    <%= bar_chart(@graph_data, id: "activity-summary", width: "100%", xtitle: "Minutes Spent Today") %>
+							    <%= bar_chart(@summary_data["graph_data"], id: "activity-summary", width: "100%", xtitle: "Minutes Spent Today") %>
+							    <%= bar_chart(@work_data["graph_data"], id: "work-summary", width: "100%", xtitle: "Work vs. Not Work", color: "green") %>
 							</div>
 
 				    	<%end %>
