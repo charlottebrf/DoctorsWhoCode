@@ -21,10 +21,6 @@ body {
   margin: 0;
 }
 
-.text {
-	text-align: center;
-}
-
 .logout-page {
   background: 
     linear-gradient(
@@ -39,6 +35,14 @@ body {
   position: fixed;
   top: 0;
   left: 0;
+}
+
+.logout-text {
+  padding: 20px;
+  color: #ffffff;
+  font-size: 30px;
+  font-family: Verdana;
+  margin: 0;
 }
 
 .target-heading{

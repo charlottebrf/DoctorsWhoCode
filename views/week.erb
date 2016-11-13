@@ -79,11 +79,59 @@
 
 				    	<%end %>
 
-					<% end %> 
+					<% end %> 			
 
 				</div>
 
 			</div>
+
+			<!--start of second row-->
+
+			<div class="row">
+
+			    <div class="col-md-offset-2 col-md-10 col-xs-11 col-xs-offset-1">
+
+			    	<h2 class="homepage-headings">My Targets
+					</h2>
+
+					<% if @day_targets.empty? && @week_targets.empty? && @month_targets.empty?%>
+
+			    		<p>You haven't set any targets yet.</p>
+
+			    	<% else %>
+
+				    	<p>Your current targets are:</p>
+						
+						<ul>
+
+							<% for row in @day_targets %>
+								
+								<li><%= row["target_minutes"]%> minutes of <%= row["target_activity"]%> per <%= row["period"]%></li>
+
+							<% end %>
+
+							<% for row in @week_targets %>
+								
+								<li><%= row["target_minutes"]%> minutes of <%= row["target_activity"]%> per <%= row["period"]%></li>
+
+							<% end %>
+
+							<% for row in @month_targets %>
+								
+								<li><%= row["target_minutes"]%> minutes of <%= row["target_activity"]%> per <%= row["period"]%></li>
+
+							<% end %>
+
+						</ul>
+
+					<% end %>
+
+					<a href="/targets"> <button class="btn btn-xs btn-default go-to-targets-button">Go To Targets</button></a>
+			    												
+				</div>
+
+			</div>
+			<!--end of second row-->
 
 		<!--this /div closes the container-->
 	    </div>
