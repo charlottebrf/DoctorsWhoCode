@@ -85,9 +85,8 @@ end
 
 get '/targets' do
   halt erb(:notauth) unless admin?
-  data = load_data()
+  data =  get_target_data()
   @autocomplete_suggestions = get_autocomplete_suggestions(data)
-  get_target_data()
   erb :targets
 end
 
@@ -183,6 +182,12 @@ def get_autocomplete_suggestions (log_entries)
   return autocomplete_suggestions 
 end
 
+def load_data #load data once on homepage
+  log_file = 'loggedactivities.json'
+  return get_data_from_json_file(log_file)
+end
+
+
 def get_data(activity_list, interim_activity_list, key_name)
   # Extract logic below into common method, pass in interim_activity_list, all_activities_entered_today
   graph_data = {}
@@ -201,6 +206,7 @@ def get_data(activity_list, interim_activity_list, key_name)
     summary_of_unique_activities.each{|k,v| text_data[entry[key_name]]=entry["duration"].to_i}
   end
 
+#reduces replicated code filtering data from json file
   summary_data = Hash.new
   summary_data["graph_data"] = graph_data.sort_by { |k,v| -v} 
   summary_data["text_data"] = text_data.sort_by { |k,v| -v} 
@@ -208,12 +214,6 @@ def get_data(activity_list, interim_activity_list, key_name)
   summary_data["least_time_spent"] = summary_data["text_data"][-1]
 
   return summary_data
-end
-
-def load_data
-  log_file = 'loggedactivities.json'
-
-  return get_data_from_json_file(log_file)
 end
 
 #Get log data from today and prepare it for graph/summary in erb file

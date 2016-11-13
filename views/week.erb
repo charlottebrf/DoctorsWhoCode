@@ -36,7 +36,7 @@
 
 			    <div class="navbar-header col-xs-11">
 
-					<p><a href="/homepage"><img src ="./images/home.png"></a>&nbsp;&nbsp;<%= $user_name %>'s Time Manager</p>
+					<p><a href="/"><img src ="./images/home.png"></a>&nbsp;&nbsp;<%= $user_name %>'<% if !($user_name.to_s.end_with? "s") %>s<% end %> Time Manager</p>
 
 			    </div>
 
@@ -64,16 +64,17 @@
 					
 					<a href="/homepage"><button class="btn btn-xs btn-default summary-buttons">TODAY</button></a>   <a href="/month"><button class="btn btn-xs btn-default summary-buttons">MY MONTH</button></a>					
 
-			    	<% if @graph_data_week.empty? %>
+			    	<% if @summary_data.empty? %>
 
 						<p>Sorry, you haven't logged anything this week.</p>
 
 					<% else %>	
 				   
-						<% if @graph_data_week.length >=1 %>
+						<% if @summary_data.length >=1 %>
 							
 							<div>
-							    <%= bar_chart(@graph_data_week, id: "activity-summary", width: "100%", xtitle: "Minutes Spent This Week") %>
+							    <%= bar_chart(@summary_data["graph_data"], id: "activity-summary", width: "100%", xtitle: "Minutes Spent This Week") %>
+							    <%= bar_chart(@work_data["graph_data"], id: "work-summary", width: "100%", xtitle: "Work vs. Not Work", color: "green") %>
 							</div>						
 
 				    	<%end %>
