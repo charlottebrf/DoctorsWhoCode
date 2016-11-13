@@ -66,6 +66,7 @@ end
 get '/week' do
   halt erb(:notauth) unless admin?
   get_week_summary_data() 
+  get_target_data()
   erb :week
 end
 
@@ -73,6 +74,7 @@ end
 get '/month' do
   halt erb(:notauth) unless admin?
   get_month_summary_data()  
+  get_target_data()
   erb :month
 end
 
@@ -86,6 +88,7 @@ end
 
 
 post ('/settarget') do
+  halt erb(:notauth) unless admin?
   @target_activity = params[:target_activity]
   puts "\n\n\n #{@target_activity}"
   @target_minutes = params[:target_minutes]
@@ -96,6 +99,7 @@ end
 
 
 post ('/deletetarget') do
+  halt erb(:notauth) unless admin?
   data_hash = get_data_from_json_file("targets.json")
   data_for_target_to_delete = params[:delete_target].split(%r{,\s*})  
   for entry in data_hash
@@ -116,6 +120,7 @@ end
 
 #Get user data for logging (via post request)
 post ("/log") do
+  halt erb(:notauth) unless admin?
   @user = $user_id.to_s
   @activity_logged = params[:activity_to_log]
   @minutes_spent = params[:duration]

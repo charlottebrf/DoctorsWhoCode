@@ -41,23 +41,23 @@
 		    	}
 
 		       	if (duration == 0){
-		    		alert("Did you mean to enter zero?\nPlease enter a valid duration.");
+		    		alert("Did you mean to enter zero? Please enter a valid duration.");
 		    		return false;
 		    	}
 
 		    	//how to validate against a duration and a radio button selection? Need 3 options if we can do that
 		       	if ((duration > 1440) && (document.getElementById("day").checked == true)){
-		    		alert("There are only 1440 minutes in a day!\nPlease enter a valid duration.");
+		    		alert("There are only 1440 minutes in a day! Please enter a valid duration.");
 		    		return false;
 		    	}
 
 		       	if ((duration > 10080) && (document.getElementById("week").checked == true)){
-		    		alert("There are only 10080 minutes in a week!\nPlease enter a valid duration.");
+		    		alert("There are only 10080 minutes in a week! Please enter a valid duration.");
 		    		return false;
 		    	}
 
 		       	if ((duration > 43200) && (document.getElementById("month").checked == true)){
-		    		alert("There are only 43200 minutes in 30 days!\nPlease enter a valid duration.");
+		    		alert("There are only 43200 minutes in 30 days! Please enter a valid duration.");
 		    		return false;
 		    	}
 
@@ -78,7 +78,7 @@
 		    	}
 
 		    	else{
-				    if (confirm("This action cannot be undone!\nIf you want to continue, click \'OK\'") == true) {
+				    if (confirm("This action cannot be undone! If you want to continue, click \'OK\'") == true) {
 				    	return true;
 				    } 
 
