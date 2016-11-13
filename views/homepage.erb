@@ -191,7 +191,7 @@
 							<div>
 							    <%= bar_chart(@summary_data["graph_data"], id: "activity-summary", width: "100%", xtitle: "Minutes Spent Today"
 							    ) %>
-							    <%= bar_chart(@work_data["graph_data"], id: "work-summary", width: "100%", xtitle: "Work vs. Not Work", color: "green") %>
+							    <%= bar_chart(@work_data["graph_data"], id: "work-summary", width: "100%", xtitle: "Work vs. Leisure", colors: ["green"]) %>
 							</div>
 
 						<% else %>
@@ -200,7 +200,7 @@
 
 							<div>
 							    <%= bar_chart(@summary_data["graph_data"], id: "activity-summary", width: "100%", xtitle: "Minutes Spent Today") %>
-							    <%= bar_chart(@work_data["graph_data"], id: "work-summary", width: "100%", xtitle: "Work vs. Not Work", color: "green") %>
+							    <%= bar_chart(@work_data["graph_data"], id: "work-summary", width: "100%", xtitle: "Work vs. Leisure", colors: ["green"]) %>
 							</div>
 
 				    	<%end %>
