@@ -1,5 +1,6 @@
 body {
-
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 .login-page {
@@ -9,16 +10,22 @@ body {
   min-height: 100%;
   margin: 0;
   position: fixed;
-  top: 0;
-  left: 0;
+  padding: 5px;
 }
 
 .text h1 {
-  padding: 20px;
+  padding: 10px;
   color: #ffffff;
   font-size: 50px;
   font-family: Verdana;
-  margin: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+#twitter-login {
+  margin: auto;
+  display: block;
 }
 
 .logout-page {
@@ -35,14 +42,20 @@ body {
   position: fixed;
   top: 0;
   left: 0;
+  padding: 20px;
 }
 
 .logout-text {
   padding: 20px;
   color: #ffffff;
-  font-size: 20px;
+  font-size: 18px;
   font-family: Verdana;
-  margin: 0;
+  margin: 0.5cm;
+  text-align: center;
+}
+
+#back {
+	margin: 0.5cm;
 }
 
 .target-heading{
@@ -64,7 +77,7 @@ body {
 	text-align: left;
 }
 
-.homepage-headings{
+.headings{
 	margin-top: 60px;
 }
 

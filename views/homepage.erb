@@ -114,7 +114,7 @@
 
 			    <div class="col-md-6 col-xs-10" id="log-activity-section">
 
-			    	<h2 class="homepage-headings">Log Activity</h2>
+			    	<h2 class="headings">Log Activity</h2>
 
 					<form method="POST" name"myForm" onsubmit="return validation_message();" action="/log">
 
@@ -172,7 +172,7 @@
 
 			    <div class="col-md-10 col-xs-10" id="activity-summary-section">
 
-			    	<h2 class="homepage-headings">Today's Activity Summary</h2>
+			    	<h2 class="headings">Today's Activity Summary</h2>
 			    	<a href="/week"><button class="btn btn-xs btn-default summary-buttons">MY WEEK</button></a> <a href="/month"><button class="btn btn-xs btn-default summary-buttons">MY MONTH</button></a>
 
 			    	<% if @summary_data["graph_data"].empty? %>
@@ -218,7 +218,7 @@
 
 			    <div class="col-md-offset-2 col-md-10 col-xs-11 col-xs-offset-1">
 
-			    	<h2 class="homepage-headings">My Targets
+			    	<h2 class="headings">My Targets
 					</h2>
 
 					<% if @day_targets.empty? && @week_targets.empty? && @month_targets.empty?%>
@@ -253,7 +253,7 @@
 
 					<% end %>
 
-					<a href="/targets"> <button class="btn btn-xs btn-default go-to-targets-button">Go To Targets</button></a>
+					<a href="/targets"> <button class="btn btn-xs btn-default go-to-targets-button" id="back">Go To Targets</button></a>
 			    												
 				</div>
 

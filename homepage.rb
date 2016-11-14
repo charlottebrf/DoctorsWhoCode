@@ -161,7 +161,8 @@ end
 def log_activity_to_json(user, activity_logged, minutes_spent, date, type)
   json_string = File.read('loggedactivities.json')
   activities_logged = JSON.load(json_string)
-  activities_logged << {user: user, name: activity_logged, type: type, duration: minutes_spent, date: date}
+  # activity_logged.upcase writes activity to json file as uppercase which eliminates duplicate case sensitive entries
+  activities_logged << {user: user, name: activity_logged.upcase, type: type.upcase, duration: minutes_spent, date: date}
   File.write('loggedactivities.json', activities_logged.to_json)
 end
 
@@ -205,7 +206,7 @@ def get_data(activity_list, interim_activity_list, key_name)
   end
   #remap hashes to name=>duration pairs
   for entry in summary_of_unique_activities
-    summary_of_unique_activities.each{|k,v| graph_data[entry[key_name].upcase]=entry["duration"].to_i}    
+    summary_of_unique_activities.each{|k,v| graph_data[entry[key_name]]=entry["duration"].to_i}    
     summary_of_unique_activities.each{|k,v| text_data[entry[key_name]]=entry["duration"].to_i}
   end
 
@@ -229,8 +230,8 @@ def get_today_summary_data (log_entries)
   interim_activity_list = []  #intermediate step so we can up up all durations for a single activity
   for entry in log_entries   
     if (entry["date"] == today) && (entry["user"] == $user_id)
-      all_activities_entered_today << {"name" => entry["name"].upcase, "duration" => entry["duration"].to_i} 
-      interim_activity_list << {"name" => entry["name"].upcase, "duration" => 0}     
+      all_activities_entered_today << {"name" => entry["name"], "duration" => entry["duration"].to_i} 
+      interim_activity_list << {"name" => entry["name"], "duration" => 0}     
     end   
   end
 

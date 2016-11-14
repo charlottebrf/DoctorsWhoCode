@@ -60,7 +60,7 @@
 
 			    <div class="col-md-10 col-xs-10">
 
-			    	<h2>My activity for the past 30 days</h2>
+			    	<h2 class="headings">My activity for the past 30 days</h2>
 
 					<a href="/homepage"><button class="btn btn-xs btn-default summary-buttons">TODAY</button></a>   <a href="/week"><button class="btn btn-xs btn-default summary-buttons">MY WEEK</button></a>
 
@@ -91,7 +91,7 @@
 
 			    <div class="col-md-offset-2 col-md-10 col-xs-11 col-xs-offset-1">
 
-			    	<h2 class="homepage-headings">My Targets
+			    	<h2 class="headings">My Targets
 					</h2>
 
 					<% if @day_targets.empty? && @week_targets.empty? && @month_targets.empty?%>
@@ -133,6 +133,12 @@
 			</div>
 			<!--end of second row-->
 
+			<div>
+				<a href="javascript:history.go(-1)"><button class="btn btn-sm btn-primary pull-right" id="back">GO BACK</button>
+				</a>
+			</div>
+			<!--end of third row-->
+			
 		<!--this /div closes the container-->
 	    </div>
 
