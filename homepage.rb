@@ -45,6 +45,7 @@ get '/auth/twitter/callback' do
   #If you halt and restart Ruby, these values get lost when pages are refreshed. Could be an issue if user never logs out and servers go to sleep
   $user_name = env['omniauth.auth']['info']['name']
   $user_id = env['omniauth.auth']['uid']
+  puts $user_id
   redirect to("/homepage")
 end
 
