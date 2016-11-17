@@ -125,7 +125,7 @@
 
 			    <div class="col-md-offset-2 col-md-10 col-xs-11 col-xs-offset-1">
 
-			    	<h3>My Targets</h3>
+			    	<h3 class="headings">My Targets</h3>
 					
 			    	<% if @day_targets.empty? && @week_targets.empty? && @month_targets.empty?%>
 
@@ -273,8 +273,14 @@
 			</div>
 			<!--end of row-->
 
+			<div>
+				<a href="javascript:history.go(-1)"><button class="btn btn-sm btn-primary pull-right" id="back">GO BACK</button>
+				</a>
 			</div>
+			<!--end of third row-->
+
 		<!--this /div closes the container-->
+
 	    </div>
 
 	</body>
