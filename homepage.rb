@@ -6,7 +6,7 @@ require 'oauth'
 
 
 use OmniAuth::Builder do
-  provider :twitter, ENV['CONSUMER_KEY'], ENV ['CONSUMER_SECRET']
+  provider :twitter, ENV['CONSUMER_KEY'], ENV['CONSUMER_SECRET']
   {:authorize_params => {
     :force_login => 'true'
     }
@@ -211,7 +211,7 @@ def get_data(activity_list, interim_activity_list, key_name)
 <<<<<<< HEAD
     summary_of_unique_activities.each{|k,v| graph_data[entry[key_name].upcase]=entry["duration"].to_i}
 =======
-    summary_of_unique_activities.each{|k,v| graph_data[entry[key_name]]=entry["duration"].to_i}    
+    summary_of_unique_activities.each{|k,v| graph_data[entry[key_name]]=entry["duration"].to_i}
 >>>>>>> 9b468f6c674ebf823ee248f4bb7210bc51930d91
     summary_of_unique_activities.each{|k,v| text_data[entry[key_name]]=entry["duration"].to_i}
   end
@@ -241,9 +241,9 @@ def get_today_summary_data (log_entries)
       interim_activity_list << {"name" => entry["name"].upcase, "duration" => 0}
     end
 =======
-      all_activities_entered_today << {"name" => entry["name"], "duration" => entry["duration"].to_i} 
-      interim_activity_list << {"name" => entry["name"], "duration" => 0}     
-    end   
+      all_activities_entered_today << {"name" => entry["name"], "duration" => entry["duration"].to_i}
+      interim_activity_list << {"name" => entry["name"], "duration" => 0}
+    end
 >>>>>>> 9b468f6c674ebf823ee248f4bb7210bc51930d91
   end
 
